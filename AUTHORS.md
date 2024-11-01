@@ -1,0 +1,2 @@
+- [Frédéric Blanqui](https://blanqui.gitlabpages.inria.fr/)
+- Amal Makni
