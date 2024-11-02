@@ -1,9 +1,0 @@
--R . HOLLight_Real HOLLight.v
-realcategorical.v
-realprop.v
-realsyntax.v
-real.v
-terms.v
-theorems.v
-theory_hol.v
-types.v
