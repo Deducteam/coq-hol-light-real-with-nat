@@ -28,5 +28,5 @@ opam install coq-hol-light-real
 
 ```
 Require Import HOLLight_Real.theorems.
-Check REAL_COMPLETE.
+Check tmp_REAL_COMPLETE.
 ```
