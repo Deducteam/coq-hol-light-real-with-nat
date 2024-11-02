@@ -1,6 +1,6 @@
 (* (c) Copyright 2006-2018 Microsoft Corporation and Inria.                  *)
 (* Distributed under the terms of CeCILL-B.                                  *)
-From fourcolor Require Import real.
+From HOLLight_Real Require Import real.
 
 (******************************************************************************)
 (*   This files defines Notation for the abstract reals laid out in real.v.   *)

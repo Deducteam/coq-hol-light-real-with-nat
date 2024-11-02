@@ -3,7 +3,7 @@
 From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat seq order.
 From mathcomp Require Import ssralg ssrnum ssrint rat.
 From Coq Require Import Morphisms Setoid.
-From fourcolor Require Import real realsyntax realprop.
+From HOLLight_Real Require Import real realsyntax realprop.
 
 (******************************************************************************)
 (*   A proof that the real axiomatisation is categorical -- hence that our    *)

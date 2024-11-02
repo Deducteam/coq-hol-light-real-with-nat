@@ -3,7 +3,7 @@
 From mathcomp Require Import ssreflect ssrfun ssrbool eqtype ssrnat div order.
 From mathcomp Require Import ssralg ssrnum ssrint archimedean rat intdiv.
 From Coq Require Import Morphisms Setoid.
-From fourcolor Require Import real realsyntax.
+From HOLLight_Real Require Import real realsyntax.
 
 (******************************************************************************)
 (*   This file establishes basic arithmetic/order/setoid properties of the    *)
