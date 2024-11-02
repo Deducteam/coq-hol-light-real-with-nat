@@ -17,7 +17,7 @@ Axiom prop_ext : forall {P Q : Prop}, (P -> Q) -> (Q -> P) -> P = Q.
 Axiom proof_irrelevance : forall (P:Prop) (p1 p2:P), p1 = p2.
 ```
 
-Remark: the files `real*.v` are copied from [coq-fourcolor](https://github.com/coq-community/fourcolor).
+Remark: the files `real*.v` are copied from [coq-fourcolor](https://github.com/coq-community/fourcolor) (commit c028f9b).
 
 **Installation using [opam](https://opam.ocaml.org/)**
 

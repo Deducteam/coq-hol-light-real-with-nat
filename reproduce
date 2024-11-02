@@ -2,13 +2,19 @@
 
 set -e # to exit as soon as there is an error
 
+opam_version=2.2.1
+dune_version=3.7
+
 hol2dk_commit=58db5d9
 hollight_commit=ea45176
-hollight_file=hol_upto_realax
-dump_simp_option=-before-hol
 lambdapi_version=2.5.1
 ocaml_version=4.14.1
 camlp5_version=8.02.01
+coq_version=8.20
+ssreflect_version=2.1.0
+
+hollight_file=hol_upto_realax
+dump_simp_option=-before-hol
 
 line() { echo '------------------------------------------------------------'; }
 
@@ -17,8 +23,16 @@ echo create opam switch reproduce ...
 opam switch create reproduce $ocaml_version || (echo 'you can remove the opam switch reproduce with:'; echo 'opam switch remove reproduce'; exit 1)
 
 line
-echo install dependencies ...
-opam install camlp5.$camlp5_version lambdapi.$lambdapi_version
+echo install HOL-Light dependencies ...
+opam install camlp5.$camlp5_version ocamlfind zarith
+
+line
+echo install lambdapi ...
+opam install lambdapi.$lambdapi_version
+
+line
+echo install coq and ssreflect ...
+opam install coq.$coq_version coq-mathcomp-ssreflect.$ssreflect_version
 
 mkdir tmp
 cd tmp
