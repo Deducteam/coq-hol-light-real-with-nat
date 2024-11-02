@@ -69,6 +69,9 @@ hol2dk link $hollight_file
 make split
 make -j32 lp
 make -j32 v
+cp ../real*.v .
+sed -i -e 's/fourcolor\./HOLLight./' HOLLight.v
+coqc -R . HOLLight -no-glob HOLLight.v
 make -j32 vo
 make opam
 

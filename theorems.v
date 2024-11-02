@@ -1,4 +1,4 @@
-Require Import HOLLight.
+Require Import HOLLight_Real.
 Require Import theory_hol.
 Require Import types.
 Require Import terms.
@@ -181,11 +181,11 @@ Axiom thm_CHOICE_UNPAIR_THM : forall {A B : Type'}, forall P : A -> B -> Prop, (
 Axiom thm_CHOICE_PAIRED_THM : forall {A B : Type'}, forall P : A -> B -> Prop, forall Q : (prod A B) -> Prop, ((exists x : A, exists y : B, P x y) /\ (forall x : A, forall y : B, (P x y) -> Q (@pair A B x y))) -> Q (@ε (prod A B) (@GABS ((prod A B) -> Prop) (fun f : (prod A B) -> Prop => forall x : A, forall y : B, @GEQ Prop (f (@pair A B x y)) (P x y)))).
 Axiom thm_ONE_ONE : forall {A B : Type'}, forall f : A -> B, (@ONE_ONE A B f) = (forall x1 : A, forall x2 : A, ((f x1) = (f x2)) -> x1 = x2).
 Axiom thm_ONTO : forall {A B : Type'}, forall f : A -> B, (@ONTO A B f) = (forall y : B, exists x : A, y = (f x)).
-Axiom thm_INFINITY_AX : exists f : HOLLight.ind -> HOLLight.ind, (@ONE_ONE HOLLight.ind HOLLight.ind f) /\ (~ (@ONTO HOLLight.ind HOLLight.ind f)).
-Axiom thm_IND_SUC_0_EXISTS : exists f : HOLLight.ind -> HOLLight.ind, exists z : HOLLight.ind, (forall x1 : HOLLight.ind, forall x2 : HOLLight.ind, ((f x1) = (f x2)) = (x1 = x2)) /\ (forall x : HOLLight.ind, ~ ((f x) = z)).
-Axiom thm_NUM_REP_RULES : (NUM_REP IND_0) /\ (forall i : HOLLight.ind, (NUM_REP i) -> NUM_REP (IND_SUC i)).
-Axiom thm_NUM_REP_CASES : forall a : HOLLight.ind, (NUM_REP a) = ((a = IND_0) \/ (exists i : HOLLight.ind, (a = (IND_SUC i)) /\ (NUM_REP i))).
-Axiom thm_NUM_REP_INDUCT : forall NUM_REP' : HOLLight.ind -> Prop, ((NUM_REP' IND_0) /\ (forall i : HOLLight.ind, (NUM_REP' i) -> NUM_REP' (IND_SUC i))) -> forall a : HOLLight.ind, (NUM_REP a) -> NUM_REP' a.
+Axiom thm_INFINITY_AX : exists f : HOLLight_Real.ind -> HOLLight.ind, (@ONE_ONE HOLLight.ind HOLLight.ind f) /\ (~ (@ONTO HOLLight.ind HOLLight.ind f)).
+Axiom thm_IND_SUC_0_EXISTS : exists f : HOLLight_Real.ind -> HOLLight.ind, exists z : HOLLight.ind, (forall x1 : HOLLight.ind, forall x2 : HOLLight.ind, ((f x1) = (f x2)) = (x1 = x2)) /\ (forall x : HOLLight.ind, ~ ((f x) = z)).
+Axiom thm_NUM_REP_RULES : (NUM_REP IND_0) /\ (forall i : HOLLight_Real.ind, (NUM_REP i) -> NUM_REP (IND_SUC i)).
+Axiom thm_NUM_REP_CASES : forall a : HOLLight_Real.ind, (NUM_REP a) = ((a = IND_0) \/ (exists i : HOLLight.ind, (a = (IND_SUC i)) /\ (NUM_REP i))).
+Axiom thm_NUM_REP_INDUCT : forall NUM_REP' : HOLLight_Real.ind -> Prop, ((NUM_REP' IND_0) /\ (forall i : HOLLight.ind, (NUM_REP' i) -> NUM_REP' (IND_SUC i))) -> forall a : HOLLight.ind, (NUM_REP a) -> NUM_REP' a.
 Axiom thm_ZERO_DEF : 0 = (mk_num IND_0).
 Axiom thm_SUC_DEF : forall n : nat, (S n) = (mk_num (IND_SUC (dest_num n))).
 Axiom thm_SUC_INJ : forall m : nat, forall n : nat, ((S m) = (S n)) = (m = n).
