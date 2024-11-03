@@ -1,4 +1,4 @@
-Require Import HOLLight.
+Require Import HOLLight_Real.
 Require Import theory_hol.
 Require Import types.
 Definition _FALSITY_ : Prop := False.
@@ -57,11 +57,11 @@ Lemma ONE_ONE_def {A B : Type'} : (@ONE_ONE A B) = (fun _2064 : A -> B => forall
 Proof. exact (eq_refl (@ONE_ONE A B)). Qed.
 Lemma ONTO_def {A B : Type'} : (@ONTO A B) = (fun _2069 : A -> B => forall y : B, exists x : A, y = (_2069 x)).
 Proof. exact (eq_refl (@ONTO A B)). Qed.
-Lemma IND_SUC_def : IND_SUC = (@ε (HOLLight.ind -> HOLLight.ind) (fun f : HOLLight.ind -> HOLLight.ind => exists z : HOLLight.ind, (forall x1 : HOLLight.ind, forall x2 : HOLLight.ind, ((f x1) = (f x2)) = (x1 = x2)) /\ (forall x : HOLLight.ind, ~ ((f x) = z)))).
+Lemma IND_SUC_def : IND_SUC = (@ε (HOLLight_Real.ind -> HOLLight_Real.ind) (fun f : HOLLight_Real.ind -> HOLLight_Real.ind => exists z : HOLLight_Real.ind, (forall x1 : HOLLight_Real.ind, forall x2 : HOLLight_Real.ind, ((f x1) = (f x2)) = (x1 = x2)) /\ (forall x : HOLLight_Real.ind, ~ ((f x) = z)))).
 Proof. exact (eq_refl IND_SUC). Qed.
-Lemma IND_0_def : IND_0 = (@ε HOLLight.ind (fun z : HOLLight.ind => (forall x1 : HOLLight.ind, forall x2 : HOLLight.ind, ((IND_SUC x1) = (IND_SUC x2)) = (x1 = x2)) /\ (forall x : HOLLight.ind, ~ ((IND_SUC x) = z)))).
+Lemma IND_0_def : IND_0 = (@ε HOLLight_Real.ind (fun z : HOLLight_Real.ind => (forall x1 : HOLLight_Real.ind, forall x2 : HOLLight_Real.ind, ((IND_SUC x1) = (IND_SUC x2)) = (x1 = x2)) /\ (forall x : HOLLight_Real.ind, ~ ((IND_SUC x) = z)))).
 Proof. exact (eq_refl IND_0). Qed.
-Lemma NUM_REP_def : NUM_REP = (fun a : HOLLight.ind => forall NUM_REP' : HOLLight.ind -> Prop, (forall a' : HOLLight.ind, ((a' = IND_0) \/ (exists i : HOLLight.ind, (a' = (IND_SUC i)) /\ (NUM_REP' i))) -> NUM_REP' a') -> NUM_REP' a).
+Lemma NUM_REP_def : NUM_REP = (fun a : HOLLight_Real.ind => forall NUM_REP' : HOLLight_Real.ind -> Prop, (forall a' : HOLLight_Real.ind, ((a' = IND_0) \/ (exists i : HOLLight_Real.ind, (a' = (IND_SUC i)) /\ (NUM_REP' i))) -> NUM_REP' a') -> NUM_REP' a).
 Proof. exact (eq_refl NUM_REP). Qed.
 Definition NUMERAL : nat -> nat := fun _2128 : nat => _2128.
 Lemma NUMERAL_def : NUMERAL = (fun _2128 : nat => _2128).
