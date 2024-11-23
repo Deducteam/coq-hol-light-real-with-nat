@@ -1976,117 +1976,6 @@ Lemma axiom_18 : forall (r : recspace (prod Prop (prod Prop (prod Prop (prod Pro
 Proof. intro r. apply axiom_18'. Qed.
 
 (*****************************************************************************)
-(* Properties of Coq real numbers *)
-(*****************************************************************************)
-
-Require Export Rbase Rbasic_fun.
-
-Open Scope R_scope.
-
-Definition R' := {| type := R; el := 0%R |}.
-
-Canonical R'.
-
-(*****************************************************************************)
-(* Proof that Coq R is a fourcolor.model of real numbers. *)
-(*****************************************************************************)
-
-Definition Rsup : (R -> Prop) -> R.
-Proof.
-  intro E. case (excluded_middle_informative (bound E)); intro h.
-  case (excluded_middle_informative (exists x, E x)); intro i.
-  destruct (completeness E h i) as [b j]. exact b.
-  exact 0. exact 0.
-Defined.
-
-Lemma is_lub_Rsup E : bound E -> (exists x, E x) -> is_lub E (Rsup E).
-Proof.
-  intros h i. unfold Rsup. case (excluded_middle_informative (bound E)); intro h'.
-  case (excluded_middle_informative (exists x, E x)); intro i'.
-  destruct (completeness E h' i') as [b j]. exact j. contradiction. contradiction.
-Qed.
-
-Require Import HOLLight_Real.real.
-Import Real.
-
-Definition R_struct : structure := {|
-  val := R;
-  le := Rle;
-  sup := Rsup;
-  add := Rplus;
-  zero := R0;
-  opp := Ropp; 
-  mul := Rmult;
-  one := R1;
-  inv := Rinv
-|}.
-
-Canonical R_struct.
-
-Lemma Rsup_upper_bound E : has_sup E -> ub E (Rsup E).
-Proof.
-  intros [i j]. unfold Rsup. case (excluded_middle_informative (bound E)); intro c.
-  case (excluded_middle_informative (exists x : R, E x)); intro d.
-  destruct (completeness E c d) as [b [k l]]. intros x h. apply k. exact h.
-  intros x h. assert (exists x : R, E x). exists x. exact h. contradiction.
-  intros x h. assert (exists x : R, E x). exists x. exact h. contradiction.
-Qed.
-
-Lemma Rsup_total E x : has_sup E -> down E x \/ Rle (sup E) x.
-Proof.  
-  intros [i [b j]]. case (classic (down E x)); intro k. auto. right.
-  assert (l : bound E). exists b. exact j.
-  generalize (is_lub_Rsup E l i); intros [m n]. apply n.
-  intros y hy.
-  unfold down in k. rewrite ex2_eq, not_exists_eq in k.
-  generalize (k y); intro k'. rewrite not_conj_eq, not_or_eq in k'.
-  unfold Rle. left. apply Rnot_le_lt. apply k'. exact hy.
-Qed.
-
-(* Remark: in fourcolor, le is primitive and eq is defined as the
-intersection of le and the inverse of le, but in coq, lt is primitive
-and le is defined from lt and Logic.eq. *)
-
-Lemma eq_R_struct : @eq R_struct = @Logic.eq R.
-Proof.
-  apply fun_ext; intro x. apply fun_ext; intro y.
-  apply prop_ext; intro h. destruct h as [h i]. apply Rle_antisym; auto.
-  subst y. split; apply Rle_refl.
-Qed.
-
-Lemma R_axioms : axioms R_struct.
-Proof.
-  apply Axioms.
-  apply Rle_refl.
-  apply Rle_trans.
-  apply Rsup_upper_bound.
-  apply Rsup_total.  
-  apply Rplus_le_compat_l.
-  intros x y. rewrite eq_R_struct. apply Rplus_comm.
-  intros x y z. rewrite eq_R_struct. rewrite Rplus_assoc. reflexivity.
-  intro x. rewrite eq_R_struct. apply Rplus_0_l.
-  intro x. rewrite eq_R_struct. apply Rplus_opp_r.
-  apply Rmult_le_compat_l.
-  intros x y. rewrite eq_R_struct. apply Rmult_comm.
-  intros x y z. rewrite eq_R_struct. rewrite Rmult_assoc. reflexivity.
-  intros x y z. rewrite eq_R_struct. apply Rmult_plus_distr_l.
-  intro x. rewrite eq_R_struct. apply Rmult_1_l.
-  intro x. rewrite eq_R_struct. apply Rinv_r.
-  rewrite eq_R_struct. apply R1_neq_R0.
-Qed.
-
-Definition R_model : model := {|
-  model_structure := R_struct;
-  model_axioms := R_axioms;
-|}.
-
-Lemma eq_R_model :
-  @eq (model_structure R_model) = @Logic.eq (val (model_structure R_model)).
-Proof. exact eq_R_struct. Qed.
-
-Close Scope R_scope.
-
-(*****************************************************************************)
 (* Alignment of subtypes. *)
 (*****************************************************************************)
 
@@ -2245,11 +2134,7 @@ Arguments dest_quotient_elt_of [A R].
 (* Nearly additive sequences of natural numbers *)
 (*****************************************************************************)
 
-Import Coq.Init.Datatypes.
-
 Definition dist := fun _22820 : prod nat nat => Nat.add (Nat.sub (@fst nat nat _22820) (@snd nat nat _22820)) (Nat.sub (@snd nat nat _22820) (@fst nat nat _22820)).
-
-Require Import Lia.
 
 Lemma DIST_REFL : forall n : nat, dist (n,n) = 0.
 Proof. intro n. unfold dist. simpl. rewrite Nat.sub_diag. reflexivity. Qed.
@@ -2632,8 +2517,6 @@ Abort.*)
 
 Definition real := quotient treal_eq.
 
-(*Module real.*)
-
 Definition mk_real := mk_quotient treal_eq.
 Definition dest_real := dest_quotient treal_eq.
 
@@ -2645,97 +2528,3 @@ Proof. exact (dest_mk_aux_quotient treal_eq). Qed.
 
 Lemma axiom_24 : forall (r : (prod hreal hreal) -> Prop), ((fun s : (prod hreal hreal) -> Prop => exists x : prod hreal hreal, s = (treal_eq x)) r) = ((dest_real (mk_real r)) = r).
 Proof. exact (dest_mk_quotient treal_eq). Qed.
-
-(*End real.
-
-Import real.*)
-
-Definition real_le : real -> real -> Prop := fun x1 : real => fun y1 : real => @ε Prop (fun u : Prop => exists x1' : prod hreal hreal, exists y1' : prod hreal hreal, ((treal_le x1' y1') = u) /\ ((dest_real x1 x1') /\ (dest_real y1 y1'))).
-
-(*Lemma real_le_refl: forall x : real, real_le x x.
-Proof.
-  intro x. unfold real_le.
-  match goal with [|- ε ?x] => set (Q := x); set (q := ε Q) end.
-  assert (i: exists x, Q x). exists True. set (t := elt_of x). exists t. exists t. split.
-  rewrite is_True. reflexivity.
-  assert (h: dest_real x t). apply dest_quotient_elt_of. reflexivity. auto.
-  generalize (ε_spec i). intros [x1 [x2 [h1 [h2 h3]]]].
-  unfold reverse_coercion. rewrite <- h1.
-  apply dest_quotient_elim in h2.
-  2: apply treal_eq_refl. 2: apply treal_eq_sym. 2: apply treal_eq_trans.
-  apply dest_quotient_elim in h3.
-  2: apply treal_eq_refl. 2: apply treal_eq_sym. 2: apply treal_eq_trans.
-  rewrite <- h2, <- h3. reflexivity.
-Qed.
-
-Lemma real_le_trans x y z: real_le x y -> real_le y z -> real_le x z.
-Proof.
-Abort.
-
-Add Relation _ real_le
-    reflexivity proved by real_le_refl
-    (*transitivity proved by real_le_trans*)
-as real_le_rel.*)
-
-Definition real_add : real -> real -> real := fun x1 : real => fun y1 : real => mk_real (fun u : prod hreal hreal => exists x1' : prod hreal hreal, exists y1' : prod hreal hreal, (treal_eq (treal_add x1' y1') u) /\ ((dest_real x1 x1') /\ (dest_real y1 y1'))).
-
-Lemma real_add_sym  p q : real_add p q = real_add q p.
-Proof.
-  unfold real_add. f_equal. apply fun_ext; intro x.
-  apply prop_ext; intros [p' [q' [h1 [h2 h3]]]].
-  exists q'. exists p'. split. rewrite treal_add_sym. exact h1. auto.
-  exists q'. exists p'. split. rewrite treal_add_sym. exact h1. auto.
-Qed.
-
-Definition real_mul : real -> real -> real := fun x1 : real => fun y1 : real => mk_real (fun u : prod hreal hreal => exists x1' : prod hreal hreal, exists y1' : prod hreal hreal, (treal_eq (treal_mul x1' y1') u) /\ ((dest_real x1 x1') /\ (dest_real y1 y1'))).
-
-Definition real_neg : real -> real := fun x1 : real => mk_real (fun u : prod hreal hreal => exists x1' : prod hreal hreal, (treal_eq (treal_neg x1') u) /\ (dest_real x1 x1')).
-
-Definition real_of_num : nat -> real := fun m : nat => mk_real (fun u : prod hreal hreal => treal_eq (treal_of_num m) u).
-
-Lemma real_add_of_num p q :
-  real_of_num (p + q) = real_add (real_of_num p) (real_of_num q).
-Proof.
-  unfold real_of_num, real_add.
-  f_equal. rewrite treal_add_of_num. apply fun_ext; intro x.
-  apply prop_ext; intro h.
-
-  exists (treal_of_num p). exists (treal_of_num q). split. exact h. split.
-  rewrite axiom_24_aux. reflexivity. exists (treal_of_num p). reflexivity.
-  rewrite axiom_24_aux. reflexivity. exists (treal_of_num q). reflexivity.
-
-  destruct h as [p' [q' [h1 [h2 h3]]]].
-  rewrite axiom_24_aux in h2. 2: exists (treal_of_num p); reflexivity.
-  rewrite axiom_24_aux in h3. 2: exists (treal_of_num q); reflexivity.
-  rewrite h2, h3. exact h1.
-Qed.
-
-Definition real_inv : real -> real := fun x : real => mk_real (fun u : prod hreal hreal => exists x' : prod hreal hreal, (treal_eq (treal_inv x') u) /\ (dest_real x x')).
-
-(*****************************************************************************)
-(* Proof that real is a fourcolor.model of real numbers. *)
-(*****************************************************************************)
-
-Definition real_sup : (real -> Prop) -> real.
-Proof.
-  intro P. case (excluded_middle_informative (exists x, P x)); intro h.
-  case (excluded_middle_informative (exists M, forall x, (P x) -> real_le x M)); intro i.
-  set (Q := fun M => (forall x : real, P x -> real_le x M) /\
-                    (forall M' : real, (forall x : real, P x -> real_le x M')
-                                  -> real_le M M')).
-  exact (ε Q). exact (real_of_num 0). exact (real_of_num 0).
-Defined.
-
-Definition real_struct : structure := {|
-  val := real;
-  le := real_le;
-  sup := real_sup;
-  add := real_add;
-  zero := real_of_num 0;
-  opp := real_neg;
-  mul := real_mul;
-  one := real_of_num 1;
-  inv := real_inv
-|}.
-
-Canonical real_struct.

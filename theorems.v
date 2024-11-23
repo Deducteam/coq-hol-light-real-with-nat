@@ -181,11 +181,11 @@ Axiom thm_CHOICE_UNPAIR_THM : forall {A B : Type'}, forall P : A -> B -> Prop, (
 Axiom thm_CHOICE_PAIRED_THM : forall {A B : Type'}, forall P : A -> B -> Prop, forall Q : (prod A B) -> Prop, ((exists x : A, exists y : B, P x y) /\ (forall x : A, forall y : B, (P x y) -> Q (@pair A B x y))) -> Q (@ε (prod A B) (@GABS ((prod A B) -> Prop) (fun f : (prod A B) -> Prop => forall x : A, forall y : B, @GEQ Prop (f (@pair A B x y)) (P x y)))).
 Axiom thm_ONE_ONE : forall {A B : Type'}, forall f : A -> B, (@ONE_ONE A B f) = (forall x1 : A, forall x2 : A, ((f x1) = (f x2)) -> x1 = x2).
 Axiom thm_ONTO : forall {A B : Type'}, forall f : A -> B, (@ONTO A B f) = (forall y : B, exists x : A, y = (f x)).
-Axiom thm_INFINITY_AX : exists f : HOLLight_Real.ind -> HOLLight_Real.ind, (@ONE_ONE HOLLight_Real.ind HOLLight_Real.ind f) /\ (~ (@ONTO HOLLight_Real.ind HOLLight_Real.ind f)).
-Axiom thm_IND_SUC_0_EXISTS : exists f : HOLLight_Real.ind -> HOLLight_Real.ind, exists z : HOLLight_Real.ind, (forall x1 : HOLLight_Real.ind, forall x2 : HOLLight_Real.ind, ((f x1) = (f x2)) = (x1 = x2)) /\ (forall x : HOLLight_Real.ind, ~ ((f x) = z)).
-Axiom thm_NUM_REP_RULES : (NUM_REP IND_0) /\ (forall i : HOLLight_Real.ind, (NUM_REP i) -> NUM_REP (IND_SUC i)).
-Axiom thm_NUM_REP_CASES : forall a : HOLLight_Real.ind, (NUM_REP a) = ((a = IND_0) \/ (exists i : HOLLight_Real.ind, (a = (IND_SUC i)) /\ (NUM_REP i))).
-Axiom thm_NUM_REP_INDUCT : forall NUM_REP' : HOLLight_Real.ind -> Prop, ((NUM_REP' IND_0) /\ (forall i : HOLLight_Real.ind, (NUM_REP' i) -> NUM_REP' (IND_SUC i))) -> forall a : HOLLight_Real.ind, (NUM_REP a) -> NUM_REP' a.
+Axiom thm_INFINITY_AX : exists f : ind -> ind, (@ONE_ONE ind ind f) /\ (~ (@ONTO ind ind f)).
+Axiom thm_IND_SUC_0_EXISTS : exists f : ind -> ind, exists z : ind, (forall x1 : ind, forall x2 : ind, ((f x1) = (f x2)) = (x1 = x2)) /\ (forall x : ind, ~ ((f x) = z)).
+Axiom thm_NUM_REP_RULES : (NUM_REP IND_0) /\ (forall i : ind, (NUM_REP i) -> NUM_REP (IND_SUC i)).
+Axiom thm_NUM_REP_CASES : forall a : ind, (NUM_REP a) = ((a = IND_0) \/ (exists i : ind, (a = (IND_SUC i)) /\ (NUM_REP i))).
+Axiom thm_NUM_REP_INDUCT : forall NUM_REP' : ind -> Prop, ((NUM_REP' IND_0) /\ (forall i : ind, (NUM_REP' i) -> NUM_REP' (IND_SUC i))) -> forall a : ind, (NUM_REP a) -> NUM_REP' a.
 Axiom thm_ZERO_DEF : 0 = (mk_num IND_0).
 Axiom thm_SUC_DEF : forall n : nat, (S n) = (mk_num (IND_SUC (dest_num n))).
 Axiom thm_SUC_INJ : forall m : nat, forall n : nat, ((S m) = (S n)) = (m = n).
@@ -874,3 +874,382 @@ Axiom thm_REAL_HREAL_LEMMA1 : exists r : hreal -> real, (forall x : real, (real_
 Axiom thm_REAL_HREAL_LEMMA2 : exists h : real -> hreal, exists r : hreal -> real, (forall x : hreal, (h (r x)) = x) /\ ((forall x : real, (real_le (real_of_num (NUMERAL 0)) x) -> (r (h x)) = x) /\ ((forall x : hreal, real_le (real_of_num (NUMERAL 0)) (r x)) /\ (forall x : hreal, forall y : hreal, (hreal_le x y) = (real_le (r x) (r y))))).
 Axiom thm_REAL_COMPLETE_SOMEPOS : forall P : real -> Prop, ((exists x : real, (P x) /\ (real_le (real_of_num (NUMERAL 0)) x)) /\ (exists M : real, forall x : real, (P x) -> real_le x M)) -> exists M : real, (forall x : real, (P x) -> real_le x M) /\ (forall M' : real, (forall x : real, (P x) -> real_le x M') -> real_le M M').
 Axiom thm_REAL_COMPLETE : forall P : real -> Prop, ((exists x : real, P x) /\ (exists M : real, forall x : real, (P x) -> real_le x M)) -> exists M : real, (forall x : real, (P x) -> real_le x M) /\ (forall M' : real, (forall x : real, (P x) -> real_le x M') -> real_le M M').
+Axiom thm_REAL_ADD_AC : forall (n : real) (m : real) (p : real), ((real_add m n) = (real_add n m)) /\ (((real_add (real_add m n) p) = (real_add m (real_add n p))) /\ ((real_add m (real_add n p)) = (real_add n (real_add m p)))).
+Axiom thm_REAL_ADD_RINV : forall x : real, (real_add x (real_neg x)) = (real_of_num (NUMERAL 0)).
+Axiom thm_REAL_EQ_ADD_LCANCEL : forall x : real, forall y : real, forall z : real, ((real_add x y) = (real_add x z)) = (y = z).
+Axiom thm_REAL_EQ_ADD_RCANCEL : forall x : real, forall y : real, forall z : real, ((real_add x z) = (real_add y z)) = (x = y).
+Axiom thm_REAL_MUL_RZERO : forall x : real, (real_mul x (real_of_num (NUMERAL 0))) = (real_of_num (NUMERAL 0)).
+Axiom thm_REAL_MUL_LZERO : forall x : real, (real_mul (real_of_num (NUMERAL 0)) x) = (real_of_num (NUMERAL 0)).
+Axiom thm_REAL_NEG_NEG : forall x : real, (real_neg (real_neg x)) = x.
+Axiom thm_REAL_MUL_RNEG : forall x : real, forall y : real, (real_mul x (real_neg y)) = (real_neg (real_mul x y)).
+Axiom thm_REAL_MUL_LNEG : forall x : real, forall y : real, (real_mul (real_neg x) y) = (real_neg (real_mul x y)).
+Axiom thm_REAL_NEG_ADD : forall x : real, forall y : real, (real_neg (real_add x y)) = (real_add (real_neg x) (real_neg y)).
+Axiom thm_REAL_ADD_RID : forall x : real, (real_add x (real_of_num (NUMERAL 0))) = x.
+Axiom thm_REAL_NEG_0 : (real_neg (real_of_num (NUMERAL 0))) = (real_of_num (NUMERAL 0)).
+Axiom thm_REAL_LE_LNEG : forall x : real, forall y : real, (real_le (real_neg x) y) = (real_le (real_of_num (NUMERAL 0)) (real_add x y)).
+Axiom thm_REAL_LE_NEG2 : forall x : real, forall y : real, (real_le (real_neg x) (real_neg y)) = (real_le y x).
+Axiom thm_REAL_LE_RNEG : forall x : real, forall y : real, (real_le x (real_neg y)) = (real_le (real_add x y) (real_of_num (NUMERAL 0))).
+Axiom thm_REAL_OF_NUM_POW : forall x : nat, forall n : nat, (real_pow (real_of_num x) n) = (real_of_num (Nat.pow x n)).
+Axiom thm_REAL_POW_NEG : forall x : real, forall n : nat, (real_pow (real_neg x) n) = (@COND real (Coq.Arith.PeanoNat.Nat.Even n) (real_pow x n) (real_neg (real_pow x n))).
+Axiom thm_REAL_ABS_NUM : forall n : nat, (real_abs (real_of_num n)) = (real_of_num n).
+Axiom thm_REAL_ABS_NEG : forall x : real, (real_abs (real_neg x)) = (real_abs x).
+Axiom thm_REAL_LTE_TOTAL : forall x : real, forall y : real, (real_lt x y) \/ (real_le y x).
+Axiom thm_REAL_LET_TOTAL : forall x : real, forall y : real, (real_le x y) \/ (real_lt y x).
+Axiom thm_REAL_LT_IMP_LE : forall x : real, forall y : real, (real_lt x y) -> real_le x y.
+Axiom thm_REAL_LTE_TRANS : forall x : real, forall y : real, forall z : real, ((real_lt x y) /\ (real_le y z)) -> real_lt x z.
+Axiom thm_REAL_LET_TRANS : forall x : real, forall y : real, forall z : real, ((real_le x y) /\ (real_lt y z)) -> real_lt x z.
+Axiom thm_REAL_LT_TRANS : forall x : real, forall y : real, forall z : real, ((real_lt x y) /\ (real_lt y z)) -> real_lt x z.
+Axiom thm_REAL_LE_ADD : forall x : real, forall y : real, ((real_le (real_of_num (NUMERAL 0)) x) /\ (real_le (real_of_num (NUMERAL 0)) y)) -> real_le (real_of_num (NUMERAL 0)) (real_add x y).
+Axiom thm_REAL_LTE_ANTISYM : forall x : real, forall y : real, ~ ((real_lt x y) /\ (real_le y x)).
+Axiom thm_REAL_SUB_LE : forall x : real, forall y : real, (real_le (real_of_num (NUMERAL 0)) (real_sub x y)) = (real_le y x).
+Axiom thm_REAL_NEG_SUB : forall x : real, forall y : real, (real_neg (real_sub x y)) = (real_sub y x).
+Axiom thm_REAL_LE_LT : forall x : real, forall y : real, (real_le x y) = ((real_lt x y) \/ (x = y)).
+Axiom thm_REAL_SUB_LT : forall x : real, forall y : real, (real_lt (real_of_num (NUMERAL 0)) (real_sub x y)) = (real_lt y x).
+Axiom thm_REAL_NOT_LT : forall x : real, forall y : real, (~ (real_lt x y)) = (real_le y x).
+Axiom thm_REAL_SUB_0 : forall x : real, forall y : real, ((real_sub x y) = (real_of_num (NUMERAL 0))) = (x = y).
+Axiom thm_REAL_LT_LE : forall x : real, forall y : real, (real_lt x y) = ((real_le x y) /\ (~ (x = y))).
+Axiom thm_REAL_LT_REFL : forall x : real, ~ (real_lt x x).
+Axiom thm_REAL_LTE_ADD : forall x : real, forall y : real, ((real_lt (real_of_num (NUMERAL 0)) x) /\ (real_le (real_of_num (NUMERAL 0)) y)) -> real_lt (real_of_num (NUMERAL 0)) (real_add x y).
+Axiom thm_REAL_LET_ADD : forall x : real, forall y : real, ((real_le (real_of_num (NUMERAL 0)) x) /\ (real_lt (real_of_num (NUMERAL 0)) y)) -> real_lt (real_of_num (NUMERAL 0)) (real_add x y).
+Axiom thm_REAL_LT_ADD : forall x : real, forall y : real, ((real_lt (real_of_num (NUMERAL 0)) x) /\ (real_lt (real_of_num (NUMERAL 0)) y)) -> real_lt (real_of_num (NUMERAL 0)) (real_add x y).
+Axiom thm_REAL_ENTIRE : forall x : real, forall y : real, ((real_mul x y) = (real_of_num (NUMERAL 0))) = ((x = (real_of_num (NUMERAL 0))) \/ (y = (real_of_num (NUMERAL 0)))).
+Axiom thm_REAL_LE_NEGTOTAL : forall x : real, (real_le (real_of_num (NUMERAL 0)) x) \/ (real_le (real_of_num (NUMERAL 0)) (real_neg x)).
+Axiom thm_REAL_LE_SQUARE : forall x : real, real_le (real_of_num (NUMERAL 0)) (real_mul x x).
+Axiom thm_REAL_MUL_RID : forall x : real, (real_mul x (real_of_num (NUMERAL (BIT1 0)))) = x.
+Axiom thm_REAL_POW_2 : forall x : real, (real_pow x (NUMERAL (BIT0 (BIT1 0)))) = (real_mul x x).
+Axiom thm_REAL_POLY_CLAUSES : (forall x : real, forall y : real, forall z : real, (real_add x (real_add y z)) = (real_add (real_add x y) z)) /\ ((forall x : real, forall y : real, (real_add x y) = (real_add y x)) /\ ((forall x : real, (real_add (real_of_num (NUMERAL 0)) x) = x) /\ ((forall x : real, forall y : real, forall z : real, (real_mul x (real_mul y z)) = (real_mul (real_mul x y) z)) /\ ((forall x : real, forall y : real, (real_mul x y) = (real_mul y x)) /\ ((forall x : real, (real_mul (real_of_num (NUMERAL (BIT1 0))) x) = x) /\ ((forall x : real, (real_mul (real_of_num (NUMERAL 0)) x) = (real_of_num (NUMERAL 0))) /\ ((forall x : real, forall y : real, forall z : real, (real_mul x (real_add y z)) = (real_add (real_mul x y) (real_mul x z))) /\ ((forall x : real, (real_pow x (NUMERAL 0)) = (real_of_num (NUMERAL (BIT1 0)))) /\ (forall x : real, forall n : nat, (real_pow x (S n)) = (real_mul x (real_pow x n))))))))))).
+Axiom thm_REAL_POLY_NEG_CLAUSES : (forall x : real, (real_neg x) = (real_mul (real_neg (real_of_num (NUMERAL (BIT1 0)))) x)) /\ (forall x : real, forall y : real, (real_sub x y) = (real_add x (real_mul (real_neg (real_of_num (NUMERAL (BIT1 0)))) y))).
+Axiom thm_REAL_POS : forall n : nat, real_le (real_of_num (NUMERAL 0)) (real_of_num n).
+Axiom thm_REAL_LT_NZ : forall n : nat, (~ ((real_of_num n) = (real_of_num (NUMERAL 0)))) = (real_lt (real_of_num (NUMERAL 0)) (real_of_num n)).
+Axiom thm_REAL_POS_LT : forall n : nat, real_lt (real_of_num (NUMERAL 0)) (real_of_num (S n)).
+Axiom thm_REAL_OF_NUM_LT : forall m : nat, forall n : nat, (real_lt (real_of_num m) (real_of_num n)) = (Peano.lt m n).
+Axiom thm_REAL_OF_NUM_GE : forall m : nat, forall n : nat, (real_ge (real_of_num m) (real_of_num n)) = (Peano.ge m n).
+Axiom thm_REAL_OF_NUM_GT : forall m : nat, forall n : nat, (real_gt (real_of_num m) (real_of_num n)) = (Peano.gt m n).
+Axiom thm_REAL_OF_NUM_MAX : forall m : nat, forall n : nat, (real_max (real_of_num m) (real_of_num n)) = (real_of_num (Nat.max m n)).
+Axiom thm_REAL_OF_NUM_MIN : forall m : nat, forall n : nat, (real_min (real_of_num m) (real_of_num n)) = (real_of_num (Nat.min m n)).
+Axiom thm_REAL_OF_NUM_SUC : forall n : nat, (real_add (real_of_num n) (real_of_num (NUMERAL (BIT1 0)))) = (real_of_num (S n)).
+Axiom thm_REAL_OF_NUM_SUB : forall m : nat, forall n : nat, (Peano.le m n) -> (real_sub (real_of_num n) (real_of_num m)) = (real_of_num (Nat.sub n m)).
+Axiom thm_REAL_OF_NUM_SUB_CASES : forall m : nat, forall n : nat, (real_sub (real_of_num m) (real_of_num n)) = (@COND real (Peano.le n m) (real_of_num (Nat.sub m n)) (real_neg (real_of_num (Nat.sub n m)))).
+Axiom thm_REAL_OF_NUM_CLAUSES : (forall m : nat, forall n : nat, ((real_of_num m) = (real_of_num n)) = (m = n)) /\ ((forall m : nat, forall n : nat, (real_ge (real_of_num m) (real_of_num n)) = (Peano.ge m n)) /\ ((forall m : nat, forall n : nat, (real_gt (real_of_num m) (real_of_num n)) = (Peano.gt m n)) /\ ((forall m : nat, forall n : nat, (real_le (real_of_num m) (real_of_num n)) = (Peano.le m n)) /\ ((forall m : nat, forall n : nat, (real_lt (real_of_num m) (real_of_num n)) = (Peano.lt m n)) /\ ((forall m : nat, forall n : nat, (real_max (real_of_num m) (real_of_num n)) = (real_of_num (Nat.max m n))) /\ ((forall m : nat, forall n : nat, (real_min (real_of_num m) (real_of_num n)) = (real_of_num (Nat.min m n))) /\ ((forall m : nat, forall n : nat, (real_add (real_of_num m) (real_of_num n)) = (real_of_num (Nat.add m n))) /\ ((forall m : nat, forall n : nat, (real_mul (real_of_num m) (real_of_num n)) = (real_of_num (Nat.mul m n))) /\ (forall x : nat, forall n : nat, (real_pow (real_of_num x) n) = (real_of_num (Nat.pow x n))))))))))).
+Axiom thm_REAL_MUL_AC : forall (n : real) (m : real) (p : real), ((real_mul m n) = (real_mul n m)) /\ (((real_mul (real_mul m n) p) = (real_mul m (real_mul n p))) /\ ((real_mul m (real_mul n p)) = (real_mul n (real_mul m p)))).
+Axiom thm_REAL_ADD_RDISTRIB : forall x : real, forall y : real, forall z : real, (real_mul (real_add x y) z) = (real_add (real_mul x z) (real_mul y z)).
+Axiom thm_REAL_LT_LADD_IMP : forall x : real, forall y : real, forall z : real, (real_lt y z) -> real_lt (real_add x y) (real_add x z).
+Axiom thm_REAL_LT_MUL : forall x : real, forall y : real, ((real_lt (real_of_num (NUMERAL 0)) x) /\ (real_lt (real_of_num (NUMERAL 0)) y)) -> real_lt (real_of_num (NUMERAL 0)) (real_mul x y).
+Axiom thm_REAL_EQ_ADD_LCANCEL_0 : forall x : real, forall y : real, ((real_add x y) = x) = (y = (real_of_num (NUMERAL 0))).
+Axiom thm_REAL_EQ_ADD_RCANCEL_0 : forall x : real, forall y : real, ((real_add x y) = y) = (x = (real_of_num (NUMERAL 0))).
+Axiom thm_REAL_LNEG_UNIQ : forall x : real, forall y : real, ((real_add x y) = (real_of_num (NUMERAL 0))) = (x = (real_neg y)).
+Axiom thm_REAL_RNEG_UNIQ : forall x : real, forall y : real, ((real_add x y) = (real_of_num (NUMERAL 0))) = (y = (real_neg x)).
+Axiom thm_REAL_NEG_LMUL : forall x : real, forall y : real, (real_neg (real_mul x y)) = (real_mul (real_neg x) y).
+Axiom thm_REAL_NEG_RMUL : forall x : real, forall y : real, (real_neg (real_mul x y)) = (real_mul x (real_neg y)).
+Axiom thm_REAL_NEG_MUL2 : forall x : real, forall y : real, (real_mul (real_neg x) (real_neg y)) = (real_mul x y).
+Axiom thm_REAL_LT_LADD : forall x : real, forall y : real, forall z : real, (real_lt (real_add x y) (real_add x z)) = (real_lt y z).
+Axiom thm_REAL_LT_RADD : forall x : real, forall y : real, forall z : real, (real_lt (real_add x z) (real_add y z)) = (real_lt x y).
+Axiom thm_REAL_LT_ANTISYM : forall x : real, forall y : real, ~ ((real_lt x y) /\ (real_lt y x)).
+Axiom thm_REAL_LT_GT : forall x : real, forall y : real, (real_lt x y) -> ~ (real_lt y x).
+Axiom thm_REAL_NOT_EQ : forall x : real, forall y : real, (~ (x = y)) = ((real_lt x y) \/ (real_lt y x)).
+Axiom thm_REAL_NOT_LE : forall x : real, forall y : real, (~ (real_le x y)) = (real_lt y x).
+Axiom thm_REAL_LET_ANTISYM : forall x : real, forall y : real, ~ ((real_le x y) /\ (real_lt y x)).
+Axiom thm_REAL_NEG_LT0 : forall x : real, (real_lt (real_neg x) (real_of_num (NUMERAL 0))) = (real_lt (real_of_num (NUMERAL 0)) x).
+Axiom thm_REAL_NEG_GT0 : forall x : real, (real_lt (real_of_num (NUMERAL 0)) (real_neg x)) = (real_lt x (real_of_num (NUMERAL 0))).
+Axiom thm_REAL_NEG_LE0 : forall x : real, (real_le (real_neg x) (real_of_num (NUMERAL 0))) = (real_le (real_of_num (NUMERAL 0)) x).
+Axiom thm_REAL_NEG_GE0 : forall x : real, (real_le (real_of_num (NUMERAL 0)) (real_neg x)) = (real_le x (real_of_num (NUMERAL 0))).
+Axiom thm_REAL_LT_TOTAL : forall x : real, forall y : real, (x = y) \/ ((real_lt x y) \/ (real_lt y x)).
+Axiom thm_REAL_LT_NEGTOTAL : forall x : real, (x = (real_of_num (NUMERAL 0))) \/ ((real_lt (real_of_num (NUMERAL 0)) x) \/ (real_lt (real_of_num (NUMERAL 0)) (real_neg x))).
+Axiom thm_REAL_LE_01 : real_le (real_of_num (NUMERAL 0)) (real_of_num (NUMERAL (BIT1 0))).
+Axiom thm_REAL_LT_01 : real_lt (real_of_num (NUMERAL 0)) (real_of_num (NUMERAL (BIT1 0))).
+Axiom thm_REAL_LE_LADD : forall x : real, forall y : real, forall z : real, (real_le (real_add x y) (real_add x z)) = (real_le y z).
+Axiom thm_REAL_LE_RADD : forall x : real, forall y : real, forall z : real, (real_le (real_add x z) (real_add y z)) = (real_le x y).
+Axiom thm_REAL_LT_ADD2 : forall w : real, forall x : real, forall y : real, forall z : real, ((real_lt w x) /\ (real_lt y z)) -> real_lt (real_add w y) (real_add x z).
+Axiom thm_REAL_LE_ADD2 : forall w : real, forall x : real, forall y : real, forall z : real, ((real_le w x) /\ (real_le y z)) -> real_le (real_add w y) (real_add x z).
+Axiom thm_REAL_LT_LNEG : forall x : real, forall y : real, (real_lt (real_neg x) y) = (real_lt (real_of_num (NUMERAL 0)) (real_add x y)).
+Axiom thm_REAL_LT_RNEG : forall x : real, forall y : real, (real_lt x (real_neg y)) = (real_lt (real_add x y) (real_of_num (NUMERAL 0))).
+Axiom thm_REAL_LT_ADDNEG : forall x : real, forall y : real, forall z : real, (real_lt y (real_add x (real_neg z))) = (real_lt (real_add y z) x).
+Axiom thm_REAL_LT_ADDNEG2 : forall x : real, forall y : real, forall z : real, (real_lt (real_add x (real_neg y)) z) = (real_lt x (real_add z y)).
+Axiom thm_REAL_LT_ADD1 : forall x : real, forall y : real, (real_le x y) -> real_lt x (real_add y (real_of_num (NUMERAL (BIT1 0)))).
+Axiom thm_REAL_SUB_ADD : forall x : real, forall y : real, (real_add (real_sub x y) y) = x.
+Axiom thm_REAL_SUB_ADD2 : forall x : real, forall y : real, (real_add y (real_sub x y)) = x.
+Axiom thm_REAL_SUB_REFL : forall x : real, (real_sub x x) = (real_of_num (NUMERAL 0)).
+Axiom thm_REAL_LE_DOUBLE : forall x : real, (real_le (real_of_num (NUMERAL 0)) (real_add x x)) = (real_le (real_of_num (NUMERAL 0)) x).
+Axiom thm_REAL_LE_NEGL : forall x : real, (real_le (real_neg x) x) = (real_le (real_of_num (NUMERAL 0)) x).
+Axiom thm_REAL_LE_NEGR : forall x : real, (real_le x (real_neg x)) = (real_le x (real_of_num (NUMERAL 0))).
+Axiom thm_REAL_NEG_EQ_0 : forall x : real, ((real_neg x) = (real_of_num (NUMERAL 0))) = (x = (real_of_num (NUMERAL 0))).
+Axiom thm_REAL_ADD_SUB : forall x : real, forall y : real, (real_sub (real_add x y) x) = y.
+Axiom thm_REAL_NEG_EQ : forall x : real, forall y : real, ((real_neg x) = y) = (x = (real_neg y)).
+Axiom thm_REAL_NEG_MINUS1 : forall x : real, (real_neg x) = (real_mul (real_neg (real_of_num (NUMERAL (BIT1 0)))) x).
+Axiom thm_REAL_LT_IMP_NE : forall x : real, forall y : real, (real_lt x y) -> ~ (x = y).
+Axiom thm_REAL_LE_ADDR : forall x : real, forall y : real, (real_le x (real_add x y)) = (real_le (real_of_num (NUMERAL 0)) y).
+Axiom thm_REAL_LE_ADDL : forall x : real, forall y : real, (real_le y (real_add x y)) = (real_le (real_of_num (NUMERAL 0)) x).
+Axiom thm_REAL_LT_ADDR : forall x : real, forall y : real, (real_lt x (real_add x y)) = (real_lt (real_of_num (NUMERAL 0)) y).
+Axiom thm_REAL_LT_ADDL : forall x : real, forall y : real, (real_lt y (real_add x y)) = (real_lt (real_of_num (NUMERAL 0)) x).
+Axiom thm_REAL_SUB_SUB : forall x : real, forall y : real, (real_sub (real_sub x y) x) = (real_neg y).
+Axiom thm_REAL_LT_ADD_SUB : forall x : real, forall y : real, forall z : real, (real_lt (real_add x y) z) = (real_lt x (real_sub z y)).
+Axiom thm_REAL_LT_SUB_RADD : forall x : real, forall y : real, forall z : real, (real_lt (real_sub x y) z) = (real_lt x (real_add z y)).
+Axiom thm_REAL_LT_SUB_LADD : forall x : real, forall y : real, forall z : real, (real_lt x (real_sub y z)) = (real_lt (real_add x z) y).
+Axiom thm_REAL_LE_SUB_LADD : forall x : real, forall y : real, forall z : real, (real_le x (real_sub y z)) = (real_le (real_add x z) y).
+Axiom thm_REAL_LE_SUB_RADD : forall x : real, forall y : real, forall z : real, (real_le (real_sub x y) z) = (real_le x (real_add z y)).
+Axiom thm_REAL_ADD2_SUB2 : forall a : real, forall b : real, forall c : real, forall d : real, (real_sub (real_add a b) (real_add c d)) = (real_add (real_sub a c) (real_sub b d)).
+Axiom thm_REAL_SUB_LZERO : forall x : real, (real_sub (real_of_num (NUMERAL 0)) x) = (real_neg x).
+Axiom thm_REAL_SUB_RZERO : forall x : real, (real_sub x (real_of_num (NUMERAL 0))) = x.
+Axiom thm_REAL_LET_ADD2 : forall w : real, forall x : real, forall y : real, forall z : real, ((real_le w x) /\ (real_lt y z)) -> real_lt (real_add w y) (real_add x z).
+Axiom thm_REAL_LTE_ADD2 : forall w : real, forall x : real, forall y : real, forall z : real, ((real_lt w x) /\ (real_le y z)) -> real_lt (real_add w y) (real_add x z).
+Axiom thm_REAL_SUB_LNEG : forall x : real, forall y : real, (real_sub (real_neg x) y) = (real_neg (real_add x y)).
+Axiom thm_REAL_SUB_RNEG : forall x : real, forall y : real, (real_sub x (real_neg y)) = (real_add x y).
+Axiom thm_REAL_SUB_NEG2 : forall x : real, forall y : real, (real_sub (real_neg x) (real_neg y)) = (real_sub y x).
+Axiom thm_REAL_SUB_TRIANGLE : forall a : real, forall b : real, forall c : real, (real_add (real_sub a b) (real_sub b c)) = (real_sub a c).
+Axiom thm_REAL_EQ_SUB_LADD : forall x : real, forall y : real, forall z : real, (x = (real_sub y z)) = ((real_add x z) = y).
+Axiom thm_REAL_EQ_SUB_RADD : forall x : real, forall y : real, forall z : real, ((real_sub x y) = z) = (x = (real_add z y)).
+Axiom thm_REAL_SUB_SUB2 : forall x : real, forall y : real, (real_sub x (real_sub x y)) = y.
+Axiom thm_REAL_ADD_SUB2 : forall x : real, forall y : real, (real_sub x (real_add x y)) = (real_neg y).
+Axiom thm_REAL_EQ_IMP_LE : forall x : real, forall y : real, (x = y) -> real_le x y.
+Axiom thm_REAL_LT_IMP_NZ : forall x : real, (real_lt (real_of_num (NUMERAL 0)) x) -> ~ (x = (real_of_num (NUMERAL 0))).
+Axiom thm_REAL_DIFFSQ : forall x : real, forall y : real, (real_mul (real_add x y) (real_sub x y)) = (real_sub (real_mul x x) (real_mul y y)).
+Axiom thm_REAL_EQ_NEG2 : forall x : real, forall y : real, ((real_neg x) = (real_neg y)) = (x = y).
+Axiom thm_REAL_LT_NEG2 : forall x : real, forall y : real, (real_lt (real_neg x) (real_neg y)) = (real_lt y x).
+Axiom thm_REAL_SUB_LDISTRIB : forall x : real, forall y : real, forall z : real, (real_mul x (real_sub y z)) = (real_sub (real_mul x y) (real_mul x z)).
+Axiom thm_REAL_SUB_RDISTRIB : forall x : real, forall y : real, forall z : real, (real_mul (real_sub x y) z) = (real_sub (real_mul x z) (real_mul y z)).
+Axiom thm_REAL_ABS_ZERO : forall x : real, ((real_abs x) = (real_of_num (NUMERAL 0))) = (x = (real_of_num (NUMERAL 0))).
+Axiom thm_REAL_ABS_0 : (real_abs (real_of_num (NUMERAL 0))) = (real_of_num (NUMERAL 0)).
+Axiom thm_REAL_ABS_1 : (real_abs (real_of_num (NUMERAL (BIT1 0)))) = (real_of_num (NUMERAL (BIT1 0))).
+Axiom thm_REAL_ABS_TRIANGLE : forall x : real, forall y : real, real_le (real_abs (real_add x y)) (real_add (real_abs x) (real_abs y)).
+Axiom thm_REAL_ABS_TRIANGLE_LE : forall x : real, forall y : real, forall z : real, (real_le (real_add (real_abs x) (real_abs (real_sub y x))) z) -> real_le (real_abs y) z.
+Axiom thm_REAL_ABS_TRIANGLE_LT : forall x : real, forall y : real, forall z : real, (real_lt (real_add (real_abs x) (real_abs (real_sub y x))) z) -> real_lt (real_abs y) z.
+Axiom thm_REAL_ABS_POS : forall x : real, real_le (real_of_num (NUMERAL 0)) (real_abs x).
+Axiom thm_REAL_ABS_SUB : forall x : real, forall y : real, (real_abs (real_sub x y)) = (real_abs (real_sub y x)).
+Axiom thm_REAL_ABS_NZ : forall x : real, (~ (x = (real_of_num (NUMERAL 0)))) = (real_lt (real_of_num (NUMERAL 0)) (real_abs x)).
+Axiom thm_REAL_ABS_ABS : forall x : real, (real_abs (real_abs x)) = (real_abs x).
+Axiom thm_REAL_ABS_LE : forall x : real, real_le x (real_abs x).
+Axiom thm_REAL_ABS_REFL : forall x : real, ((real_abs x) = x) = (real_le (real_of_num (NUMERAL 0)) x).
+Axiom thm_REAL_ABS_BETWEEN : forall x : real, forall y : real, forall d : real, ((real_lt (real_of_num (NUMERAL 0)) d) /\ ((real_lt (real_sub x d) y) /\ (real_lt y (real_add x d)))) = (real_lt (real_abs (real_sub y x)) d).
+Axiom thm_REAL_ABS_BOUND : forall x : real, forall y : real, forall d : real, (real_lt (real_abs (real_sub x y)) d) -> real_lt y (real_add x d).
+Axiom thm_REAL_ABS_STILLNZ : forall x : real, forall y : real, (real_lt (real_abs (real_sub x y)) (real_abs y)) -> ~ (x = (real_of_num (NUMERAL 0))).
+Axiom thm_REAL_ABS_CASES : forall x : real, (x = (real_of_num (NUMERAL 0))) \/ (real_lt (real_of_num (NUMERAL 0)) (real_abs x)).
+Axiom thm_REAL_ABS_BETWEEN1 : forall x : real, forall y : real, forall z : real, ((real_lt x z) /\ (real_lt (real_abs (real_sub y x)) (real_sub z x))) -> real_lt y z.
+Axiom thm_REAL_ABS_SIGN : forall x : real, forall y : real, (real_lt (real_abs (real_sub x y)) y) -> real_lt (real_of_num (NUMERAL 0)) x.
+Axiom thm_REAL_ABS_SIGN2 : forall x : real, forall y : real, (real_lt (real_abs (real_sub x y)) (real_neg y)) -> real_lt x (real_of_num (NUMERAL 0)).
+Axiom thm_REAL_ABS_CIRCLE : forall x : real, forall y : real, forall h : real, (real_lt (real_abs h) (real_sub (real_abs y) (real_abs x))) -> real_lt (real_abs (real_add x h)) (real_abs y).
+Axiom thm_REAL_SUB_ABS : forall x : real, forall y : real, real_le (real_sub (real_abs x) (real_abs y)) (real_abs (real_sub x y)).
+Axiom thm_REAL_ABS_SUB_ABS : forall x : real, forall y : real, real_le (real_abs (real_sub (real_abs x) (real_abs y))) (real_abs (real_sub x y)).
+Axiom thm_REAL_ABS_BETWEEN2 : forall x0 : real, forall x : real, forall y0 : real, forall y : real, ((real_lt x0 y0) /\ ((real_lt (real_mul (real_of_num (NUMERAL (BIT0 (BIT1 0)))) (real_abs (real_sub x x0))) (real_sub y0 x0)) /\ (real_lt (real_mul (real_of_num (NUMERAL (BIT0 (BIT1 0)))) (real_abs (real_sub y y0))) (real_sub y0 x0)))) -> real_lt x y.
+Axiom thm_REAL_ABS_BOUNDS : forall x : real, forall k : real, (real_le (real_abs x) k) = ((real_le (real_neg k) x) /\ (real_le x k)).
+Axiom thm_REAL_BOUNDS_LE : forall x : real, forall k : real, ((real_le (real_neg k) x) /\ (real_le x k)) = (real_le (real_abs x) k).
+Axiom thm_REAL_BOUNDS_LT : forall x : real, forall k : real, ((real_lt (real_neg k) x) /\ (real_lt x k)) = (real_lt (real_abs x) k).
+Axiom thm_REAL_MIN_MAX : forall x : real, forall y : real, (real_min x y) = (real_neg (real_max (real_neg x) (real_neg y))).
+Axiom thm_REAL_MAX_MIN : forall x : real, forall y : real, (real_max x y) = (real_neg (real_min (real_neg x) (real_neg y))).
+Axiom thm_REAL_MAX_MAX : forall x : real, forall y : real, (real_le x (real_max x y)) /\ (real_le y (real_max x y)).
+Axiom thm_REAL_MIN_MIN : forall x : real, forall y : real, (real_le (real_min x y) x) /\ (real_le (real_min x y) y).
+Axiom thm_REAL_MAX_SYM : forall x : real, forall y : real, (real_max x y) = (real_max y x).
+Axiom thm_REAL_MIN_SYM : forall x : real, forall y : real, (real_min x y) = (real_min y x).
+Axiom thm_REAL_LE_MAX : forall x : real, forall y : real, forall z : real, (real_le z (real_max x y)) = ((real_le z x) \/ (real_le z y)).
+Axiom thm_REAL_LE_MIN : forall x : real, forall y : real, forall z : real, (real_le z (real_min x y)) = ((real_le z x) /\ (real_le z y)).
+Axiom thm_REAL_LT_MAX : forall x : real, forall y : real, forall z : real, (real_lt z (real_max x y)) = ((real_lt z x) \/ (real_lt z y)).
+Axiom thm_REAL_LT_MIN : forall x : real, forall y : real, forall z : real, (real_lt z (real_min x y)) = ((real_lt z x) /\ (real_lt z y)).
+Axiom thm_REAL_MAX_LE : forall x : real, forall y : real, forall z : real, (real_le (real_max x y) z) = ((real_le x z) /\ (real_le y z)).
+Axiom thm_REAL_MIN_LE : forall x : real, forall y : real, forall z : real, (real_le (real_min x y) z) = ((real_le x z) \/ (real_le y z)).
+Axiom thm_REAL_MAX_LT : forall x : real, forall y : real, forall z : real, (real_lt (real_max x y) z) = ((real_lt x z) /\ (real_lt y z)).
+Axiom thm_REAL_MIN_LT : forall x : real, forall y : real, forall z : real, (real_lt (real_min x y) z) = ((real_lt x z) \/ (real_lt y z)).
+Axiom thm_REAL_MAX_ASSOC : forall x : real, forall y : real, forall z : real, (real_max x (real_max y z)) = (real_max (real_max x y) z).
+Axiom thm_REAL_MIN_ASSOC : forall x : real, forall y : real, forall z : real, (real_min x (real_min y z)) = (real_min (real_min x y) z).
+Axiom thm_REAL_MAX_ACI : forall (z : real) (x : real) (y : real), ((real_max x y) = (real_max y x)) /\ (((real_max (real_max x y) z) = (real_max x (real_max y z))) /\ (((real_max x (real_max y z)) = (real_max y (real_max x z))) /\ (((real_max x x) = x) /\ ((real_max x (real_max x y)) = (real_max x y))))).
+Axiom thm_REAL_MIN_ACI : forall (z : real) (x : real) (y : real), ((real_min x y) = (real_min y x)) /\ (((real_min (real_min x y) z) = (real_min x (real_min y z))) /\ (((real_min x (real_min y z)) = (real_min y (real_min x z))) /\ (((real_min x x) = x) /\ ((real_min x (real_min x y)) = (real_min x y))))).
+Axiom thm_REAL_ABS_MUL : forall x : real, forall y : real, (real_abs (real_mul x y)) = (real_mul (real_abs x) (real_abs y)).
+Axiom thm_REAL_POW_LE : forall x : real, forall n : nat, (real_le (real_of_num (NUMERAL 0)) x) -> real_le (real_of_num (NUMERAL 0)) (real_pow x n).
+Axiom thm_REAL_POW_LT : forall x : real, forall n : nat, (real_lt (real_of_num (NUMERAL 0)) x) -> real_lt (real_of_num (NUMERAL 0)) (real_pow x n).
+Axiom thm_REAL_ABS_POW : forall x : real, forall n : nat, (real_abs (real_pow x n)) = (real_pow (real_abs x) n).
+Axiom thm_REAL_LE_LMUL : forall x : real, forall y : real, forall z : real, ((real_le (real_of_num (NUMERAL 0)) x) /\ (real_le y z)) -> real_le (real_mul x y) (real_mul x z).
+Axiom thm_REAL_LE_RMUL : forall x : real, forall y : real, forall z : real, ((real_le x y) /\ (real_le (real_of_num (NUMERAL 0)) z)) -> real_le (real_mul x z) (real_mul y z).
+Axiom thm_REAL_LT_LMUL : forall x : real, forall y : real, forall z : real, ((real_lt (real_of_num (NUMERAL 0)) x) /\ (real_lt y z)) -> real_lt (real_mul x y) (real_mul x z).
+Axiom thm_REAL_LT_RMUL : forall x : real, forall y : real, forall z : real, ((real_lt x y) /\ (real_lt (real_of_num (NUMERAL 0)) z)) -> real_lt (real_mul x z) (real_mul y z).
+Axiom thm_REAL_EQ_MUL_LCANCEL : forall x : real, forall y : real, forall z : real, ((real_mul x y) = (real_mul x z)) = ((x = (real_of_num (NUMERAL 0))) \/ (y = z)).
+Axiom thm_REAL_EQ_MUL_RCANCEL : forall x : real, forall y : real, forall z : real, ((real_mul x z) = (real_mul y z)) = ((x = y) \/ (z = (real_of_num (NUMERAL 0)))).
+Axiom thm_REAL_MUL_LINV_UNIQ : forall x : real, forall y : real, ((real_mul x y) = (real_of_num (NUMERAL (BIT1 0)))) -> (real_inv y) = x.
+Axiom thm_REAL_MUL_RINV_UNIQ : forall x : real, forall y : real, ((real_mul x y) = (real_of_num (NUMERAL (BIT1 0)))) -> (real_inv x) = y.
+Axiom thm_REAL_INV_INV : forall x : real, (real_inv (real_inv x)) = x.
+Axiom thm_REAL_EQ_INV2 : forall x : real, forall y : real, ((real_inv x) = (real_inv y)) = (x = y).
+Axiom thm_REAL_INV_EQ_0 : forall x : real, ((real_inv x) = (real_of_num (NUMERAL 0))) = (x = (real_of_num (NUMERAL 0))).
+Axiom thm_REAL_LT_INV : forall x : real, (real_lt (real_of_num (NUMERAL 0)) x) -> real_lt (real_of_num (NUMERAL 0)) (real_inv x).
+Axiom thm_REAL_LT_INV_EQ : forall x : real, (real_lt (real_of_num (NUMERAL 0)) (real_inv x)) = (real_lt (real_of_num (NUMERAL 0)) x).
+Axiom thm_REAL_INV_NEG : forall x : real, (real_inv (real_neg x)) = (real_neg (real_inv x)).
+Axiom thm_REAL_LE_INV_EQ : forall x : real, (real_le (real_of_num (NUMERAL 0)) (real_inv x)) = (real_le (real_of_num (NUMERAL 0)) x).
+Axiom thm_REAL_LE_INV : forall x : real, (real_le (real_of_num (NUMERAL 0)) x) -> real_le (real_of_num (NUMERAL 0)) (real_inv x).
+Axiom thm_REAL_MUL_RINV : forall x : real, (~ (x = (real_of_num (NUMERAL 0)))) -> (real_mul x (real_inv x)) = (real_of_num (NUMERAL (BIT1 0))).
+Axiom thm_REAL_INV_1 : (real_inv (real_of_num (NUMERAL (BIT1 0)))) = (real_of_num (NUMERAL (BIT1 0))).
+Axiom thm_REAL_INV_EQ_1 : forall x : real, ((real_inv x) = (real_of_num (NUMERAL (BIT1 0)))) = (x = (real_of_num (NUMERAL (BIT1 0)))).
+Axiom thm_REAL_DIV_1 : forall x : real, (real_div x (real_of_num (NUMERAL (BIT1 0)))) = x.
+Axiom thm_REAL_DIV_REFL : forall x : real, (~ (x = (real_of_num (NUMERAL 0)))) -> (real_div x x) = (real_of_num (NUMERAL (BIT1 0))).
+Axiom thm_REAL_DIV_RMUL : forall x : real, forall y : real, (~ (y = (real_of_num (NUMERAL 0)))) -> (real_mul (real_div x y) y) = x.
+Axiom thm_REAL_DIV_LMUL : forall x : real, forall y : real, (~ (y = (real_of_num (NUMERAL 0)))) -> (real_mul y (real_div x y)) = x.
+Axiom thm_REAL_DIV_EQ_1 : forall x : real, forall y : real, ((real_div x y) = (real_of_num (NUMERAL (BIT1 0)))) = ((x = y) /\ ((~ (x = (real_of_num (NUMERAL 0)))) /\ (~ (y = (real_of_num (NUMERAL 0)))))).
+Axiom thm_REAL_ABS_INV : forall x : real, (real_abs (real_inv x)) = (real_inv (real_abs x)).
+Axiom thm_REAL_ABS_DIV : forall x : real, forall y : real, (real_abs (real_div x y)) = (real_div (real_abs x) (real_abs y)).
+Axiom thm_REAL_INV_MUL : forall x : real, forall y : real, (real_inv (real_mul x y)) = (real_mul (real_inv x) (real_inv y)).
+Axiom thm_REAL_INV_DIV : forall x : real, forall y : real, (real_inv (real_div x y)) = (real_div y x).
+Axiom thm_REAL_POW_MUL : forall x : real, forall y : real, forall n : nat, (real_pow (real_mul x y) n) = (real_mul (real_pow x n) (real_pow y n)).
+Axiom thm_REAL_POW_INV : forall x : real, forall n : nat, (real_pow (real_inv x) n) = (real_inv (real_pow x n)).
+Axiom thm_REAL_INV_POW : forall x : real, forall n : nat, (real_inv (real_pow x n)) = (real_pow (real_inv x) n).
+Axiom thm_REAL_POW_DIV : forall x : real, forall y : real, forall n : nat, (real_pow (real_div x y) n) = (real_div (real_pow x n) (real_pow y n)).
+Axiom thm_REAL_DIV_EQ_0 : forall x : real, forall y : real, ((real_div x y) = (real_of_num (NUMERAL 0))) = ((x = (real_of_num (NUMERAL 0))) \/ (y = (real_of_num (NUMERAL 0)))).
+Axiom thm_REAL_POW_ADD : forall x : real, forall m : nat, forall n : nat, (real_pow x (Nat.add m n)) = (real_mul (real_pow x m) (real_pow x n)).
+Axiom thm_REAL_POW_NZ : forall x : real, forall n : nat, (~ (x = (real_of_num (NUMERAL 0)))) -> ~ ((real_pow x n) = (real_of_num (NUMERAL 0))).
+Axiom thm_REAL_POW_SUB : forall x : real, forall m : nat, forall n : nat, ((~ (x = (real_of_num (NUMERAL 0)))) /\ (Peano.le m n)) -> (real_pow x (Nat.sub n m)) = (real_div (real_pow x n) (real_pow x m)).
+Axiom thm_REAL_LT_LCANCEL_IMP : forall x : real, forall y : real, forall z : real, ((real_lt (real_of_num (NUMERAL 0)) x) /\ (real_lt (real_mul x y) (real_mul x z))) -> real_lt y z.
+Axiom thm_REAL_LT_RCANCEL_IMP : forall x : real, forall y : real, forall z : real, ((real_lt (real_of_num (NUMERAL 0)) z) /\ (real_lt (real_mul x z) (real_mul y z))) -> real_lt x y.
+Axiom thm_REAL_LE_LCANCEL_IMP : forall x : real, forall y : real, forall z : real, ((real_lt (real_of_num (NUMERAL 0)) x) /\ (real_le (real_mul x y) (real_mul x z))) -> real_le y z.
+Axiom thm_REAL_LE_RCANCEL_IMP : forall x : real, forall y : real, forall z : real, ((real_lt (real_of_num (NUMERAL 0)) z) /\ (real_le (real_mul x z) (real_mul y z))) -> real_le x y.
+Axiom thm_REAL_LE_RMUL_EQ : forall x : real, forall y : real, forall z : real, (real_lt (real_of_num (NUMERAL 0)) z) -> (real_le (real_mul x z) (real_mul y z)) = (real_le x y).
+Axiom thm_REAL_LE_LMUL_EQ : forall x : real, forall y : real, forall z : real, (real_lt (real_of_num (NUMERAL 0)) z) -> (real_le (real_mul z x) (real_mul z y)) = (real_le x y).
+Axiom thm_REAL_LT_RMUL_EQ : forall x : real, forall y : real, forall z : real, (real_lt (real_of_num (NUMERAL 0)) z) -> (real_lt (real_mul x z) (real_mul y z)) = (real_lt x y).
+Axiom thm_REAL_LT_LMUL_EQ : forall x : real, forall y : real, forall z : real, (real_lt (real_of_num (NUMERAL 0)) z) -> (real_lt (real_mul z x) (real_mul z y)) = (real_lt x y).
+Axiom thm_REAL_LE_MUL_EQ : (forall x : real, forall y : real, (real_lt (real_of_num (NUMERAL 0)) x) -> (real_le (real_of_num (NUMERAL 0)) (real_mul x y)) = (real_le (real_of_num (NUMERAL 0)) y)) /\ (forall x : real, forall y : real, (real_lt (real_of_num (NUMERAL 0)) y) -> (real_le (real_of_num (NUMERAL 0)) (real_mul x y)) = (real_le (real_of_num (NUMERAL 0)) x)).
+Axiom thm_REAL_LT_MUL_EQ : (forall x : real, forall y : real, (real_lt (real_of_num (NUMERAL 0)) x) -> (real_lt (real_of_num (NUMERAL 0)) (real_mul x y)) = (real_lt (real_of_num (NUMERAL 0)) y)) /\ (forall x : real, forall y : real, (real_lt (real_of_num (NUMERAL 0)) y) -> (real_lt (real_of_num (NUMERAL 0)) (real_mul x y)) = (real_lt (real_of_num (NUMERAL 0)) x)).
+Axiom thm_REAL_MUL_POS_LT : forall x : real, forall y : real, (real_lt (real_of_num (NUMERAL 0)) (real_mul x y)) = (((real_lt (real_of_num (NUMERAL 0)) x) /\ (real_lt (real_of_num (NUMERAL 0)) y)) \/ ((real_lt x (real_of_num (NUMERAL 0))) /\ (real_lt y (real_of_num (NUMERAL 0))))).
+Axiom thm_REAL_MUL_POS_LE : forall x : real, forall y : real, (real_le (real_of_num (NUMERAL 0)) (real_mul x y)) = ((x = (real_of_num (NUMERAL 0))) \/ ((y = (real_of_num (NUMERAL 0))) \/ (((real_lt (real_of_num (NUMERAL 0)) x) /\ (real_lt (real_of_num (NUMERAL 0)) y)) \/ ((real_lt x (real_of_num (NUMERAL 0))) /\ (real_lt y (real_of_num (NUMERAL 0))))))).
+Axiom thm_REAL_LE_RDIV_EQ : forall x : real, forall y : real, forall z : real, (real_lt (real_of_num (NUMERAL 0)) z) -> (real_le x (real_div y z)) = (real_le (real_mul x z) y).
+Axiom thm_REAL_LE_LDIV_EQ : forall x : real, forall y : real, forall z : real, (real_lt (real_of_num (NUMERAL 0)) z) -> (real_le (real_div x z) y) = (real_le x (real_mul y z)).
+Axiom thm_REAL_LT_RDIV_EQ : forall x : real, forall y : real, forall z : real, (real_lt (real_of_num (NUMERAL 0)) z) -> (real_lt x (real_div y z)) = (real_lt (real_mul x z) y).
+Axiom thm_REAL_LT_LDIV_EQ : forall x : real, forall y : real, forall z : real, (real_lt (real_of_num (NUMERAL 0)) z) -> (real_lt (real_div x z) y) = (real_lt x (real_mul y z)).
+Axiom thm_REAL_EQ_RDIV_EQ : forall x : real, forall y : real, forall z : real, (real_lt (real_of_num (NUMERAL 0)) z) -> (x = (real_div y z)) = ((real_mul x z) = y).
+Axiom thm_REAL_EQ_LDIV_EQ : forall x : real, forall y : real, forall z : real, (real_lt (real_of_num (NUMERAL 0)) z) -> ((real_div x z) = y) = (x = (real_mul y z)).
+Axiom thm_REAL_LT_DIV2_EQ : forall x : real, forall y : real, forall z : real, (real_lt (real_of_num (NUMERAL 0)) z) -> (real_lt (real_div x z) (real_div y z)) = (real_lt x y).
+Axiom thm_REAL_LE_DIV2_EQ : forall x : real, forall y : real, forall z : real, (real_lt (real_of_num (NUMERAL 0)) z) -> (real_le (real_div x z) (real_div y z)) = (real_le x y).
+Axiom thm_REAL_MUL_2 : forall x : real, (real_mul (real_of_num (NUMERAL (BIT0 (BIT1 0)))) x) = (real_add x x).
+Axiom thm_REAL_POW_EQ_0 : forall x : real, forall n : nat, ((real_pow x n) = (real_of_num (NUMERAL 0))) = ((x = (real_of_num (NUMERAL 0))) /\ (~ (n = (NUMERAL 0)))).
+Axiom thm_REAL_LE_MUL2 : forall w : real, forall x : real, forall y : real, forall z : real, ((real_le (real_of_num (NUMERAL 0)) w) /\ ((real_le w x) /\ ((real_le (real_of_num (NUMERAL 0)) y) /\ (real_le y z)))) -> real_le (real_mul w y) (real_mul x z).
+Axiom thm_REAL_LT_MUL2 : forall w : real, forall x : real, forall y : real, forall z : real, ((real_le (real_of_num (NUMERAL 0)) w) /\ ((real_lt w x) /\ ((real_le (real_of_num (NUMERAL 0)) y) /\ (real_lt y z)))) -> real_lt (real_mul w y) (real_mul x z).
+Axiom thm_REAL_LT_SQUARE : forall x : real, (real_lt (real_of_num (NUMERAL 0)) (real_mul x x)) = (~ (x = (real_of_num (NUMERAL 0)))).
+Axiom thm_REAL_POW_1 : forall x : real, (real_pow x (NUMERAL (BIT1 0))) = x.
+Axiom thm_REAL_POW_ONE : forall n : nat, (real_pow (real_of_num (NUMERAL (BIT1 0))) n) = (real_of_num (NUMERAL (BIT1 0))).
+Axiom thm_REAL_LT_INV2 : forall x : real, forall y : real, ((real_lt (real_of_num (NUMERAL 0)) x) /\ (real_lt x y)) -> real_lt (real_inv y) (real_inv x).
+Axiom thm_REAL_LE_INV2 : forall x : real, forall y : real, ((real_lt (real_of_num (NUMERAL 0)) x) /\ (real_le x y)) -> real_le (real_inv y) (real_inv x).
+Axiom thm_REAL_LT_LINV : forall x : real, forall y : real, ((real_lt (real_of_num (NUMERAL 0)) y) /\ (real_lt (real_inv y) x)) -> real_lt (real_inv x) y.
+Axiom thm_REAL_LT_RINV : forall x : real, forall y : real, ((real_lt (real_of_num (NUMERAL 0)) x) /\ (real_lt x (real_inv y))) -> real_lt y (real_inv x).
+Axiom thm_REAL_LE_LINV : forall x : real, forall y : real, ((real_lt (real_of_num (NUMERAL 0)) y) /\ (real_le (real_inv y) x)) -> real_le (real_inv x) y.
+Axiom thm_REAL_LE_RINV : forall x : real, forall y : real, ((real_lt (real_of_num (NUMERAL 0)) x) /\ (real_le x (real_inv y))) -> real_le y (real_inv x).
+Axiom thm_REAL_INV_LE_1 : forall x : real, (real_le (real_of_num (NUMERAL (BIT1 0))) x) -> real_le (real_inv x) (real_of_num (NUMERAL (BIT1 0))).
+Axiom thm_REAL_INV_1_LE : forall x : real, ((real_lt (real_of_num (NUMERAL 0)) x) /\ (real_le x (real_of_num (NUMERAL (BIT1 0))))) -> real_le (real_of_num (NUMERAL (BIT1 0))) (real_inv x).
+Axiom thm_REAL_INV_LT_1 : forall x : real, (real_lt (real_of_num (NUMERAL (BIT1 0))) x) -> real_lt (real_inv x) (real_of_num (NUMERAL (BIT1 0))).
+Axiom thm_REAL_INV_1_LT : forall x : real, ((real_lt (real_of_num (NUMERAL 0)) x) /\ (real_lt x (real_of_num (NUMERAL (BIT1 0))))) -> real_lt (real_of_num (NUMERAL (BIT1 0))) (real_inv x).
+Axiom thm_REAL_SUB_INV : forall x : real, forall y : real, ((~ (x = (real_of_num (NUMERAL 0)))) /\ (~ (y = (real_of_num (NUMERAL 0))))) -> (real_sub (real_inv x) (real_inv y)) = (real_div (real_sub y x) (real_mul x y)).
+Axiom thm_REAL_DOWN : forall d : real, (real_lt (real_of_num (NUMERAL 0)) d) -> exists e : real, (real_lt (real_of_num (NUMERAL 0)) e) /\ (real_lt e d).
+Axiom thm_REAL_DOWN2 : forall d1 : real, forall d2 : real, ((real_lt (real_of_num (NUMERAL 0)) d1) /\ (real_lt (real_of_num (NUMERAL 0)) d2)) -> exists e : real, (real_lt (real_of_num (NUMERAL 0)) e) /\ ((real_lt e d1) /\ (real_lt e d2)).
+Axiom thm_REAL_POW_LE2 : forall n : nat, forall x : real, forall y : real, ((real_le (real_of_num (NUMERAL 0)) x) /\ (real_le x y)) -> real_le (real_pow x n) (real_pow y n).
+Axiom thm_REAL_POW_LE_1 : forall n : nat, forall x : real, (real_le (real_of_num (NUMERAL (BIT1 0))) x) -> real_le (real_of_num (NUMERAL (BIT1 0))) (real_pow x n).
+Axiom thm_REAL_POW_1_LE : forall n : nat, forall x : real, ((real_le (real_of_num (NUMERAL 0)) x) /\ (real_le x (real_of_num (NUMERAL (BIT1 0))))) -> real_le (real_pow x n) (real_of_num (NUMERAL (BIT1 0))).
+Axiom thm_REAL_POW_MONO : forall m : nat, forall n : nat, forall x : real, ((real_le (real_of_num (NUMERAL (BIT1 0))) x) /\ (Peano.le m n)) -> real_le (real_pow x m) (real_pow x n).
+Axiom thm_REAL_POW_LT2 : forall n : nat, forall x : real, forall y : real, ((~ (n = (NUMERAL 0))) /\ ((real_le (real_of_num (NUMERAL 0)) x) /\ (real_lt x y))) -> real_lt (real_pow x n) (real_pow y n).
+Axiom thm_REAL_POW_LT_1 : forall n : nat, forall x : real, ((~ (n = (NUMERAL 0))) /\ (real_lt (real_of_num (NUMERAL (BIT1 0))) x)) -> real_lt (real_of_num (NUMERAL (BIT1 0))) (real_pow x n).
+Axiom thm_REAL_POW_1_LT : forall n : nat, forall x : real, ((~ (n = (NUMERAL 0))) /\ ((real_le (real_of_num (NUMERAL 0)) x) /\ (real_lt x (real_of_num (NUMERAL (BIT1 0)))))) -> real_lt (real_pow x n) (real_of_num (NUMERAL (BIT1 0))).
+Axiom thm_REAL_POW_MONO_LT : forall m : nat, forall n : nat, forall x : real, ((real_lt (real_of_num (NUMERAL (BIT1 0))) x) /\ (Peano.lt m n)) -> real_lt (real_pow x m) (real_pow x n).
+Axiom thm_REAL_POW_POW : forall x : real, forall m : nat, forall n : nat, (real_pow (real_pow x m) n) = (real_pow x (Nat.mul m n)).
+Axiom thm_REAL_EQ_RCANCEL_IMP : forall x : real, forall y : real, forall z : real, ((~ (z = (real_of_num (NUMERAL 0)))) /\ ((real_mul x z) = (real_mul y z))) -> x = y.
+Axiom thm_REAL_EQ_LCANCEL_IMP : forall x : real, forall y : real, forall z : real, ((~ (z = (real_of_num (NUMERAL 0)))) /\ ((real_mul z x) = (real_mul z y))) -> x = y.
+Axiom thm_REAL_LT_DIV : forall x : real, forall y : real, ((real_lt (real_of_num (NUMERAL 0)) x) /\ (real_lt (real_of_num (NUMERAL 0)) y)) -> real_lt (real_of_num (NUMERAL 0)) (real_div x y).
+Axiom thm_REAL_LE_DIV : forall x : real, forall y : real, ((real_le (real_of_num (NUMERAL 0)) x) /\ (real_le (real_of_num (NUMERAL 0)) y)) -> real_le (real_of_num (NUMERAL 0)) (real_div x y).
+Axiom thm_REAL_DIV_POW2 : forall x : real, forall m : nat, forall n : nat, (~ (x = (real_of_num (NUMERAL 0)))) -> (real_div (real_pow x m) (real_pow x n)) = (@COND real (Peano.le n m) (real_pow x (Nat.sub m n)) (real_inv (real_pow x (Nat.sub n m)))).
+Axiom thm_REAL_DIV_POW2_ALT : forall x : real, forall m : nat, forall n : nat, (~ (x = (real_of_num (NUMERAL 0)))) -> (real_div (real_pow x m) (real_pow x n)) = (@COND real (Peano.lt n m) (real_pow x (Nat.sub m n)) (real_inv (real_pow x (Nat.sub n m)))).
+Axiom thm_REAL_LT_POW2 : forall n : nat, real_lt (real_of_num (NUMERAL 0)) (real_pow (real_of_num (NUMERAL (BIT0 (BIT1 0)))) n).
+Axiom thm_REAL_LE_POW2 : forall n : nat, real_le (real_of_num (NUMERAL (BIT1 0))) (real_pow (real_of_num (NUMERAL (BIT0 (BIT1 0)))) n).
+Axiom thm_REAL_POW2_ABS : forall x : real, (real_pow (real_abs x) (NUMERAL (BIT0 (BIT1 0)))) = (real_pow x (NUMERAL (BIT0 (BIT1 0)))).
+Axiom thm_REAL_LE_SQUARE_ABS : forall x : real, forall y : real, (real_le (real_abs x) (real_abs y)) = (real_le (real_pow x (NUMERAL (BIT0 (BIT1 0)))) (real_pow y (NUMERAL (BIT0 (BIT1 0))))).
+Axiom thm_REAL_LT_SQUARE_ABS : forall x : real, forall y : real, (real_lt (real_abs x) (real_abs y)) = (real_lt (real_pow x (NUMERAL (BIT0 (BIT1 0)))) (real_pow y (NUMERAL (BIT0 (BIT1 0))))).
+Axiom thm_REAL_EQ_SQUARE_ABS : forall x : real, forall y : real, ((real_abs x) = (real_abs y)) = ((real_pow x (NUMERAL (BIT0 (BIT1 0)))) = (real_pow y (NUMERAL (BIT0 (BIT1 0))))).
+Axiom thm_REAL_LE_POW_2 : forall x : real, real_le (real_of_num (NUMERAL 0)) (real_pow x (NUMERAL (BIT0 (BIT1 0)))).
+Axiom thm_REAL_LT_POW_2 : forall x : real, (real_lt (real_of_num (NUMERAL 0)) (real_pow x (NUMERAL (BIT0 (BIT1 0))))) = (~ (x = (real_of_num (NUMERAL 0)))).
+Axiom thm_REAL_SOS_EQ_0 : forall x : real, forall y : real, ((real_add (real_pow x (NUMERAL (BIT0 (BIT1 0)))) (real_pow y (NUMERAL (BIT0 (BIT1 0))))) = (real_of_num (NUMERAL 0))) = ((x = (real_of_num (NUMERAL 0))) /\ (y = (real_of_num (NUMERAL 0)))).
+Axiom thm_REAL_POW_ZERO : forall n : nat, (real_pow (real_of_num (NUMERAL 0)) n) = (@COND real (n = (NUMERAL 0)) (real_of_num (NUMERAL (BIT1 0))) (real_of_num (NUMERAL 0))).
+Axiom thm_REAL_POW_MONO_INV : forall m : nat, forall n : nat, forall x : real, ((real_le (real_of_num (NUMERAL 0)) x) /\ ((real_le x (real_of_num (NUMERAL (BIT1 0)))) /\ (Peano.le n m))) -> real_le (real_pow x m) (real_pow x n).
+Axiom thm_REAL_POW_LE2_REV : forall n : nat, forall x : real, forall y : real, ((~ (n = (NUMERAL 0))) /\ ((real_le (real_of_num (NUMERAL 0)) y) /\ (real_le (real_pow x n) (real_pow y n)))) -> real_le x y.
+Axiom thm_REAL_POW_LT2_REV : forall n : nat, forall x : real, forall y : real, ((real_le (real_of_num (NUMERAL 0)) y) /\ (real_lt (real_pow x n) (real_pow y n))) -> real_lt x y.
+Axiom thm_REAL_POW_EQ : forall n : nat, forall x : real, forall y : real, ((~ (n = (NUMERAL 0))) /\ ((real_le (real_of_num (NUMERAL 0)) x) /\ ((real_le (real_of_num (NUMERAL 0)) y) /\ ((real_pow x n) = (real_pow y n))))) -> x = y.
+Axiom thm_REAL_POW_EQ_ABS : forall n : nat, forall x : real, forall y : real, ((~ (n = (NUMERAL 0))) /\ ((real_pow x n) = (real_pow y n))) -> (real_abs x) = (real_abs y).
+Axiom thm_REAL_POW_EQ_1_IMP : forall x : real, forall n : nat, ((~ (n = (NUMERAL 0))) /\ ((real_pow x n) = (real_of_num (NUMERAL (BIT1 0))))) -> (real_abs x) = (real_of_num (NUMERAL (BIT1 0))).
+Axiom thm_REAL_POW_EQ_1 : forall x : real, forall n : nat, ((real_pow x n) = (real_of_num (NUMERAL (BIT1 0)))) = ((((real_abs x) = (real_of_num (NUMERAL (BIT1 0)))) /\ ((real_lt x (real_of_num (NUMERAL 0))) -> Coq.Arith.PeanoNat.Nat.Even n)) \/ (n = (NUMERAL 0))).
+Axiom thm_REAL_POW_LT2_ODD : forall n : nat, forall x : real, forall y : real, ((real_lt x y) /\ (Coq.Arith.PeanoNat.Nat.Odd n)) -> real_lt (real_pow x n) (real_pow y n).
+Axiom thm_REAL_POW_LE2_ODD : forall n : nat, forall x : real, forall y : real, ((real_le x y) /\ (Coq.Arith.PeanoNat.Nat.Odd n)) -> real_le (real_pow x n) (real_pow y n).
+Axiom thm_REAL_POW_LT2_ODD_EQ : forall n : nat, forall x : real, forall y : real, (Coq.Arith.PeanoNat.Nat.Odd n) -> (real_lt (real_pow x n) (real_pow y n)) = (real_lt x y).
+Axiom thm_REAL_POW_LE2_ODD_EQ : forall n : nat, forall x : real, forall y : real, (Coq.Arith.PeanoNat.Nat.Odd n) -> (real_le (real_pow x n) (real_pow y n)) = (real_le x y).
+Axiom thm_REAL_POW_EQ_ODD_EQ : forall n : nat, forall x : real, forall y : real, (Coq.Arith.PeanoNat.Nat.Odd n) -> ((real_pow x n) = (real_pow y n)) = (x = y).
+Axiom thm_REAL_POW_EQ_ODD : forall n : nat, forall x : real, forall y : real, ((Coq.Arith.PeanoNat.Nat.Odd n) /\ ((real_pow x n) = (real_pow y n))) -> x = y.
+Axiom thm_REAL_POW_EQ_EQ : forall n : nat, forall x : real, forall y : real, ((real_pow x n) = (real_pow y n)) = (@COND Prop (Coq.Arith.PeanoNat.Nat.Even n) ((n = (NUMERAL 0)) \/ ((real_abs x) = (real_abs y))) (x = y)).
+Axiom thm_REAL_EVENPOW_ABS : forall x : real, forall n : nat, (Coq.Arith.PeanoNat.Nat.Even n) -> (real_pow (real_abs x) n) = (real_pow x n).
+Axiom thm_REAL_OF_NUM_MOD : forall m : nat, forall n : nat, (real_of_num (Nat.modulo m n)) = (real_sub (real_of_num m) (real_mul (real_of_num (Nat.div m n)) (real_of_num n))).
+Axiom thm_REAL_OF_NUM_DIV : forall m : nat, forall n : nat, (real_of_num (Nat.div m n)) = (real_sub (real_div (real_of_num m) (real_of_num n)) (real_div (real_of_num (Nat.modulo m n)) (real_of_num n))).
+Axiom thm_REAL_CONVEX_BOUND2_LT : forall (b : real), forall x : real, forall y : real, forall a : real, forall u : real, forall v : real, ((real_lt x a) /\ ((real_lt y b) /\ ((real_le (real_of_num (NUMERAL 0)) u) /\ ((real_le (real_of_num (NUMERAL 0)) v) /\ ((real_add u v) = (real_of_num (NUMERAL (BIT1 0)))))))) -> real_lt (real_add (real_mul u x) (real_mul v y)) (real_add (real_mul u a) (real_mul v b)).
+Axiom thm_REAL_CONVEX_BOUND2_LE : forall (b : real), forall x : real, forall y : real, forall a : real, forall u : real, forall v : real, ((real_le x a) /\ ((real_le y b) /\ ((real_le (real_of_num (NUMERAL 0)) u) /\ ((real_le (real_of_num (NUMERAL 0)) v) /\ ((real_add u v) = (real_of_num (NUMERAL (BIT1 0)))))))) -> real_le (real_add (real_mul u x) (real_mul v y)) (real_add (real_mul u a) (real_mul v b)).
+Axiom thm_REAL_CONVEX_BOUND_LT : forall x : real, forall y : real, forall a : real, forall u : real, forall v : real, ((real_lt x a) /\ ((real_lt y a) /\ ((real_le (real_of_num (NUMERAL 0)) u) /\ ((real_le (real_of_num (NUMERAL 0)) v) /\ ((real_add u v) = (real_of_num (NUMERAL (BIT1 0)))))))) -> real_lt (real_add (real_mul u x) (real_mul v y)) a.
+Axiom thm_REAL_CONVEX_BOUND_LE : forall x : real, forall y : real, forall a : real, forall u : real, forall v : real, ((real_le x a) /\ ((real_le y a) /\ ((real_le (real_of_num (NUMERAL 0)) u) /\ ((real_le (real_of_num (NUMERAL 0)) v) /\ ((real_add u v) = (real_of_num (NUMERAL (BIT1 0)))))))) -> real_le (real_add (real_mul u x) (real_mul v y)) a.
+Axiom thm_REAL_CONVEX_BOUND_GT : forall x : real, forall y : real, forall a : real, forall u : real, forall v : real, ((real_lt a x) /\ ((real_lt a y) /\ ((real_le (real_of_num (NUMERAL 0)) u) /\ ((real_le (real_of_num (NUMERAL 0)) v) /\ ((real_add u v) = (real_of_num (NUMERAL (BIT1 0)))))))) -> real_lt a (real_add (real_mul u x) (real_mul v y)).
+Axiom thm_REAL_CONVEX_BOUND_GE : forall x : real, forall y : real, forall a : real, forall u : real, forall v : real, ((real_le a x) /\ ((real_le a y) /\ ((real_le (real_of_num (NUMERAL 0)) u) /\ ((real_le (real_of_num (NUMERAL 0)) v) /\ ((real_add u v) = (real_of_num (NUMERAL (BIT1 0)))))))) -> real_le a (real_add (real_mul u x) (real_mul v y)).
+Axiom thm_REAL_CONVEX_BOUNDS_LE : forall x : real, forall y : real, forall a : real, forall b : real, forall u : real, forall v : real, ((real_le a x) /\ ((real_le x b) /\ ((real_le a y) /\ ((real_le y b) /\ ((real_le (real_of_num (NUMERAL 0)) u) /\ ((real_le (real_of_num (NUMERAL 0)) v) /\ ((real_add u v) = (real_of_num (NUMERAL (BIT1 0)))))))))) -> (real_le a (real_add (real_mul u x) (real_mul v y))) /\ (real_le (real_add (real_mul u x) (real_mul v y)) b).
+Axiom thm_REAL_CONVEX_BOUNDS_LT : forall x : real, forall y : real, forall a : real, forall b : real, forall u : real, forall v : real, ((real_lt a x) /\ ((real_lt x b) /\ ((real_lt a y) /\ ((real_lt y b) /\ ((real_le (real_of_num (NUMERAL 0)) u) /\ ((real_le (real_of_num (NUMERAL 0)) v) /\ ((real_add u v) = (real_of_num (NUMERAL (BIT1 0)))))))))) -> (real_lt a (real_add (real_mul u x) (real_mul v y))) /\ (real_lt (real_add (real_mul u x) (real_mul v y)) b).
+Axiom thm_REAL_ARCH_SIMPLE : forall x : real, exists n : nat, real_le x (real_of_num n).
+Axiom thm_REAL_ARCH_LT : forall x : real, exists n : nat, real_lt x (real_of_num n).
+Axiom thm_REAL_ARCH : forall x : real, (real_lt (real_of_num (NUMERAL 0)) x) -> forall y : real, exists n : nat, real_lt y (real_mul (real_of_num n) x).
+Axiom thm_REAL_ARCH_INV : forall e : real, (real_lt (real_of_num (NUMERAL 0)) e) = (exists n : nat, (~ (n = (NUMERAL 0))) /\ ((real_lt (real_of_num (NUMERAL 0)) (real_inv (real_of_num n))) /\ (real_lt (real_inv (real_of_num n)) e))).
+Axiom thm_REAL_POW_LBOUND : forall x : real, forall n : nat, (real_le (real_of_num (NUMERAL 0)) x) -> real_le (real_add (real_of_num (NUMERAL (BIT1 0))) (real_mul (real_of_num n) x)) (real_pow (real_add (real_of_num (NUMERAL (BIT1 0))) x) n).
+Axiom thm_REAL_ARCH_POW : forall x : real, forall y : real, (real_lt (real_of_num (NUMERAL (BIT1 0))) x) -> exists n : nat, real_lt y (real_pow x n).
+Axiom thm_REAL_ARCH_POW2 : forall x : real, exists n : nat, real_lt x (real_pow (real_of_num (NUMERAL (BIT0 (BIT1 0)))) n).
+Axiom thm_REAL_ARCH_POW_INV : forall x : real, forall y : real, ((real_lt (real_of_num (NUMERAL 0)) y) /\ (real_lt x (real_of_num (NUMERAL (BIT1 0))))) -> exists n : nat, real_lt (real_pow x n) y.
+Axiom thm_real_sgn : forall x : real, (real_sgn x) = (@COND real (real_lt (real_of_num (NUMERAL 0)) x) (real_of_num (NUMERAL (BIT1 0))) (@COND real (real_lt x (real_of_num (NUMERAL 0))) (real_neg (real_of_num (NUMERAL (BIT1 0)))) (real_of_num (NUMERAL 0)))).
+Axiom thm_REAL_SGN_0 : (real_sgn (real_of_num (NUMERAL 0))) = (real_of_num (NUMERAL 0)).
+Axiom thm_REAL_SGN_NEG : forall x : real, (real_sgn (real_neg x)) = (real_neg (real_sgn x)).
+Axiom thm_REAL_SGN_ABS : forall x : real, (real_mul (real_sgn x) (real_abs x)) = x.
+Axiom thm_REAL_SGN_ABS_ALT : forall x : real, (real_mul (real_sgn x) x) = (real_abs x).
+Axiom thm_REAL_EQ_SGN_ABS : forall x : real, forall y : real, (x = y) = (((real_sgn x) = (real_sgn y)) /\ ((real_abs x) = (real_abs y))).
+Axiom thm_REAL_ABS_SGN : forall x : real, (real_abs (real_sgn x)) = (real_sgn (real_abs x)).
+Axiom thm_REAL_SGN : forall x : real, (real_sgn x) = (real_div x (real_abs x)).
+Axiom thm_REAL_SGN_MUL : forall x : real, forall y : real, (real_sgn (real_mul x y)) = (real_mul (real_sgn x) (real_sgn y)).
+Axiom thm_REAL_SGN_INV : forall x : real, (real_sgn (real_inv x)) = (real_sgn x).
+Axiom thm_REAL_SGN_DIV : forall x : real, forall y : real, (real_sgn (real_div x y)) = (real_div (real_sgn x) (real_sgn y)).
+Axiom thm_REAL_SGN_EQ : (forall x : real, ((real_sgn x) = (real_of_num (NUMERAL 0))) = (x = (real_of_num (NUMERAL 0)))) /\ ((forall x : real, ((real_sgn x) = (real_of_num (NUMERAL (BIT1 0)))) = (real_gt x (real_of_num (NUMERAL 0)))) /\ (forall x : real, ((real_sgn x) = (real_neg (real_of_num (NUMERAL (BIT1 0))))) = (real_lt x (real_of_num (NUMERAL 0))))).
+Axiom thm_REAL_SGN_CASES : forall x : real, ((real_sgn x) = (real_of_num (NUMERAL 0))) \/ (((real_sgn x) = (real_of_num (NUMERAL (BIT1 0)))) \/ ((real_sgn x) = (real_neg (real_of_num (NUMERAL (BIT1 0)))))).
+Axiom thm_REAL_SGN_INEQS : (forall x : real, (real_le (real_of_num (NUMERAL 0)) (real_sgn x)) = (real_le (real_of_num (NUMERAL 0)) x)) /\ ((forall x : real, (real_lt (real_of_num (NUMERAL 0)) (real_sgn x)) = (real_lt (real_of_num (NUMERAL 0)) x)) /\ ((forall x : real, (real_ge (real_of_num (NUMERAL 0)) (real_sgn x)) = (real_ge (real_of_num (NUMERAL 0)) x)) /\ ((forall x : real, (real_gt (real_of_num (NUMERAL 0)) (real_sgn x)) = (real_gt (real_of_num (NUMERAL 0)) x)) /\ ((forall x : real, ((real_of_num (NUMERAL 0)) = (real_sgn x)) = ((real_of_num (NUMERAL 0)) = x)) /\ ((forall x : real, (real_le (real_sgn x) (real_of_num (NUMERAL 0))) = (real_le x (real_of_num (NUMERAL 0)))) /\ ((forall x : real, (real_lt (real_sgn x) (real_of_num (NUMERAL 0))) = (real_lt x (real_of_num (NUMERAL 0)))) /\ ((forall x : real, (real_ge (real_sgn x) (real_of_num (NUMERAL 0))) = (real_ge x (real_of_num (NUMERAL 0)))) /\ ((forall x : real, (real_gt (real_sgn x) (real_of_num (NUMERAL 0))) = (real_gt x (real_of_num (NUMERAL 0)))) /\ (forall x : real, ((real_sgn x) = (real_of_num (NUMERAL 0))) = (x = (real_of_num (NUMERAL 0)))))))))))).
+Axiom thm_REAL_SGN_POW : forall x : real, forall n : nat, (real_sgn (real_pow x n)) = (real_pow (real_sgn x) n).
+Axiom thm_REAL_SGN_POW_2 : forall x : real, (real_sgn (real_pow x (NUMERAL (BIT0 (BIT1 0))))) = (real_sgn (real_abs x)).
+Axiom thm_REAL_SGN_REAL_SGN : forall x : real, (real_sgn (real_sgn x)) = (real_sgn x).
+Axiom thm_REAL_INV_SGN : forall x : real, (real_inv (real_sgn x)) = (real_sgn x).
+Axiom thm_REAL_SGN_EQ_INEQ : forall x : real, forall y : real, ((real_sgn x) = (real_sgn y)) = ((x = y) \/ (real_lt (real_abs (real_sub x y)) (real_max (real_abs x) (real_abs y)))).
+Axiom thm_REAL_SGNS_EQ : forall x : real, forall y : real, ((real_sgn x) = (real_sgn y)) = (((x = (real_of_num (NUMERAL 0))) = (y = (real_of_num (NUMERAL 0)))) /\ (((real_gt x (real_of_num (NUMERAL 0))) = (real_gt y (real_of_num (NUMERAL 0)))) /\ ((real_lt x (real_of_num (NUMERAL 0))) = (real_lt y (real_of_num (NUMERAL 0)))))).
+Axiom thm_REAL_SGNS_EQ_ALT : forall x : real, forall y : real, ((real_sgn x) = (real_sgn y)) = (((x = (real_of_num (NUMERAL 0))) -> y = (real_of_num (NUMERAL 0))) /\ (((real_gt x (real_of_num (NUMERAL 0))) -> real_gt y (real_of_num (NUMERAL 0))) /\ ((real_lt x (real_of_num (NUMERAL 0))) -> real_lt y (real_of_num (NUMERAL 0))))).
+Axiom thm_REAL_WLOG_LE : forall (P : real -> real -> Prop), ((forall x : real, forall y : real, (P x y) = (P y x)) /\ (forall x : real, forall y : real, (real_le x y) -> P x y)) -> forall x : real, forall y : real, P x y.
+Axiom thm_REAL_WLOG_LT : forall (P : real -> real -> Prop), ((forall x : real, P x x) /\ ((forall x : real, forall y : real, (P x y) = (P y x)) /\ (forall x : real, forall y : real, (real_lt x y) -> P x y))) -> forall x : real, forall y : real, P x y.
+Axiom thm_REAL_WLOG_LE_3 : forall P : real -> real -> real -> Prop, ((forall x : real, forall y : real, forall z : real, (P x y z) -> (P y x z) /\ (P x z y)) /\ (forall x : real, forall y : real, forall z : real, ((real_le x y) /\ (real_le y z)) -> P x y z)) -> forall x : real, forall y : real, forall z : real, P x y z.
+Axiom thm_sqrt : forall x : real, (sqrt x) = (@ε real (fun y : real => ((real_sgn y) = (real_sgn x)) /\ ((real_pow y (NUMERAL (BIT0 (BIT1 0)))) = (real_abs x)))).
+Axiom thm_SQRT_UNIQUE : forall x : real, forall y : real, ((real_le (real_of_num (NUMERAL 0)) y) /\ ((real_pow y (NUMERAL (BIT0 (BIT1 0)))) = x)) -> (sqrt x) = y.
+Axiom thm_POW_2_SQRT : forall x : real, (real_le (real_of_num (NUMERAL 0)) x) -> (sqrt (real_pow x (NUMERAL (BIT0 (BIT1 0))))) = x.
+Axiom thm_SQRT_0 : (sqrt (real_of_num (NUMERAL 0))) = (real_of_num (NUMERAL 0)).
+Axiom thm_SQRT_1 : (sqrt (real_of_num (NUMERAL (BIT1 0)))) = (real_of_num (NUMERAL (BIT1 0))).
+Axiom thm_POW_2_SQRT_ABS : forall x : real, (sqrt (real_pow x (NUMERAL (BIT0 (BIT1 0))))) = (real_abs x).
+Axiom thm_SQRT_WORKS_GEN : forall x : real, ((real_sgn (sqrt x)) = (real_sgn x)) /\ ((real_pow (sqrt x) (NUMERAL (BIT0 (BIT1 0)))) = (real_abs x)).
+Axiom thm_SQRT_UNIQUE_GEN : forall x : real, forall y : real, (((real_sgn y) = (real_sgn x)) /\ ((real_pow y (NUMERAL (BIT0 (BIT1 0)))) = (real_abs x))) -> (sqrt x) = y.
+Axiom thm_SQRT_NEG : forall x : real, (sqrt (real_neg x)) = (real_neg (sqrt x)).
+Axiom thm_REAL_SGN_SQRT : forall x : real, (real_sgn (sqrt x)) = (real_sgn x).
+Axiom thm_SQRT_WORKS : forall x : real, (real_le (real_of_num (NUMERAL 0)) x) -> (real_le (real_of_num (NUMERAL 0)) (sqrt x)) /\ ((real_pow (sqrt x) (NUMERAL (BIT0 (BIT1 0)))) = x).
+Axiom thm_REAL_POS_EQ_SQUARE : forall x : real, (real_le (real_of_num (NUMERAL 0)) x) = (exists y : real, (real_pow y (NUMERAL (BIT0 (BIT1 0)))) = x).
+Axiom thm_SQRT_POS_LE : forall x : real, (real_le (real_of_num (NUMERAL 0)) x) -> real_le (real_of_num (NUMERAL 0)) (sqrt x).
+Axiom thm_SQRT_POW_2 : forall x : real, (real_le (real_of_num (NUMERAL 0)) x) -> (real_pow (sqrt x) (NUMERAL (BIT0 (BIT1 0)))) = x.
+Axiom thm_SQRT_POW2 : forall x : real, ((real_pow (sqrt x) (NUMERAL (BIT0 (BIT1 0)))) = x) = (real_le (real_of_num (NUMERAL 0)) x).
+Axiom thm_SQRT_MUL : forall x : real, forall y : real, (sqrt (real_mul x y)) = (real_mul (sqrt x) (sqrt y)).
+Axiom thm_SQRT_INV : forall x : real, (sqrt (real_inv x)) = (real_inv (sqrt x)).
+Axiom thm_SQRT_DIV : forall x : real, forall y : real, (sqrt (real_div x y)) = (real_div (sqrt x) (sqrt y)).
+Axiom thm_SQRT_LT_0 : forall x : real, (real_lt (real_of_num (NUMERAL 0)) (sqrt x)) = (real_lt (real_of_num (NUMERAL 0)) x).
+Axiom thm_SQRT_EQ_0 : forall x : real, ((sqrt x) = (real_of_num (NUMERAL 0))) = (x = (real_of_num (NUMERAL 0))).
+Axiom thm_SQRT_LE_0 : forall x : real, (real_le (real_of_num (NUMERAL 0)) (sqrt x)) = (real_le (real_of_num (NUMERAL 0)) x).
+Axiom thm_REAL_ABS_SQRT : forall x : real, (real_abs (sqrt x)) = (sqrt (real_abs x)).
+Axiom thm_SQRT_MONO_LT : forall x : real, forall y : real, (real_lt x y) -> real_lt (sqrt x) (sqrt y).
+Axiom thm_SQRT_MONO_LE : forall x : real, forall y : real, (real_le x y) -> real_le (sqrt x) (sqrt y).
+Axiom thm_SQRT_MONO_LT_EQ : forall x : real, forall y : real, (real_lt (sqrt x) (sqrt y)) = (real_lt x y).
+Axiom thm_SQRT_MONO_LE_EQ : forall x : real, forall y : real, (real_le (sqrt x) (sqrt y)) = (real_le x y).
+Axiom thm_SQRT_INJ : forall x : real, forall y : real, ((sqrt x) = (sqrt y)) = (x = y).
+Axiom thm_SQRT_EQ_1 : forall x : real, ((sqrt x) = (real_of_num (NUMERAL (BIT1 0)))) = (x = (real_of_num (NUMERAL (BIT1 0)))).
+Axiom thm_SQRT_POS_LT : forall x : real, (real_lt (real_of_num (NUMERAL 0)) x) -> real_lt (real_of_num (NUMERAL 0)) (sqrt x).
+Axiom thm_REAL_LE_LSQRT : forall x : real, forall y : real, ((real_le (real_of_num (NUMERAL 0)) y) /\ (real_le x (real_pow y (NUMERAL (BIT0 (BIT1 0)))))) -> real_le (sqrt x) y.
+Axiom thm_REAL_LE_RSQRT : forall x : real, forall y : real, (real_le (real_pow x (NUMERAL (BIT0 (BIT1 0)))) y) -> real_le x (sqrt y).
+Axiom thm_REAL_LT_LSQRT : forall x : real, forall y : real, ((real_le (real_of_num (NUMERAL 0)) y) /\ (real_lt x (real_pow y (NUMERAL (BIT0 (BIT1 0)))))) -> real_lt (sqrt x) y.
+Axiom thm_REAL_LT_RSQRT : forall x : real, forall y : real, (real_lt (real_pow x (NUMERAL (BIT0 (BIT1 0)))) y) -> real_lt x (sqrt y).
+Axiom thm_SQRT_EVEN_POW2 : forall n : nat, (Coq.Arith.PeanoNat.Nat.Even n) -> (sqrt (real_pow (real_of_num (NUMERAL (BIT0 (BIT1 0)))) n)) = (real_pow (real_of_num (NUMERAL (BIT0 (BIT1 0)))) (Nat.div n (NUMERAL (BIT0 (BIT1 0))))).
+Axiom thm_REAL_DIV_SQRT : forall x : real, (real_le (real_of_num (NUMERAL 0)) x) -> (real_div x (sqrt x)) = (sqrt x).
+Axiom thm_REAL_RSQRT_LE : forall x : real, forall y : real, ((real_le (real_of_num (NUMERAL 0)) x) /\ ((real_le (real_of_num (NUMERAL 0)) y) /\ (real_le x (sqrt y)))) -> real_le (real_pow x (NUMERAL (BIT0 (BIT1 0)))) y.
+Axiom thm_REAL_LSQRT_LE : forall x : real, forall y : real, ((real_le (real_of_num (NUMERAL 0)) x) /\ (real_le (sqrt x) y)) -> real_le x (real_pow y (NUMERAL (BIT0 (BIT1 0)))).
+Axiom thm_REAL_SQRT_POW_2 : forall x : real, (real_pow (sqrt x) (NUMERAL (BIT0 (BIT1 0)))) = (real_abs x).
+Axiom thm_REAL_ABS_LE_SQRT_POS : forall x : real, forall y : real, ((real_le (real_of_num (NUMERAL 0)) x) /\ (real_le (real_of_num (NUMERAL 0)) y)) -> real_le (real_abs (real_sub (sqrt x) (sqrt y))) (sqrt (real_abs (real_sub x y))).
+Axiom thm_REAL_ABS_LE_SQRT : forall x : real, forall y : real, real_le (real_abs (real_sub (sqrt x) (sqrt y))) (sqrt (real_mul (real_of_num (NUMERAL (BIT0 (BIT1 0)))) (real_abs (real_sub x y)))).

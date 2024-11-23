@@ -57,11 +57,11 @@ Lemma ONE_ONE_def {A B : Type'} : (@ONE_ONE A B) = (fun _2064 : A -> B => forall
 Proof. exact (eq_refl (@ONE_ONE A B)). Qed.
 Lemma ONTO_def {A B : Type'} : (@ONTO A B) = (fun _2069 : A -> B => forall y : B, exists x : A, y = (_2069 x)).
 Proof. exact (eq_refl (@ONTO A B)). Qed.
-Lemma IND_SUC_def : IND_SUC = (@ε (HOLLight_Real.ind -> HOLLight_Real.ind) (fun f : HOLLight_Real.ind -> HOLLight_Real.ind => exists z : HOLLight_Real.ind, (forall x1 : HOLLight_Real.ind, forall x2 : HOLLight_Real.ind, ((f x1) = (f x2)) = (x1 = x2)) /\ (forall x : HOLLight_Real.ind, ~ ((f x) = z)))).
+Lemma IND_SUC_def : IND_SUC = (@ε (ind -> ind) (fun f : ind -> ind => exists z : ind, (forall x1 : ind, forall x2 : ind, ((f x1) = (f x2)) = (x1 = x2)) /\ (forall x : ind, ~ ((f x) = z)))).
 Proof. exact (eq_refl IND_SUC). Qed.
-Lemma IND_0_def : IND_0 = (@ε HOLLight_Real.ind (fun z : HOLLight_Real.ind => (forall x1 : HOLLight_Real.ind, forall x2 : HOLLight_Real.ind, ((IND_SUC x1) = (IND_SUC x2)) = (x1 = x2)) /\ (forall x : HOLLight_Real.ind, ~ ((IND_SUC x) = z)))).
+Lemma IND_0_def : IND_0 = (@ε ind (fun z : ind => (forall x1 : ind, forall x2 : ind, ((IND_SUC x1) = (IND_SUC x2)) = (x1 = x2)) /\ (forall x : ind, ~ ((IND_SUC x) = z)))).
 Proof. exact (eq_refl IND_0). Qed.
-Lemma NUM_REP_def : NUM_REP = (fun a : HOLLight_Real.ind => forall NUM_REP' : HOLLight_Real.ind -> Prop, (forall a' : HOLLight_Real.ind, ((a' = IND_0) \/ (exists i : HOLLight_Real.ind, (a' = (IND_SUC i)) /\ (NUM_REP' i))) -> NUM_REP' a') -> NUM_REP' a).
+Lemma NUM_REP_def : NUM_REP = (fun a : ind => forall NUM_REP' : ind -> Prop, (forall a' : ind, ((a' = IND_0) \/ (exists i : ind, (a' = (IND_SUC i)) /\ (NUM_REP' i))) -> NUM_REP' a') -> NUM_REP' a).
 Proof. exact (eq_refl NUM_REP). Qed.
 Definition NUMERAL : nat -> nat := fun _2128 : nat => _2128.
 Lemma NUMERAL_def : NUMERAL = (fun _2128 : nat => _2128).
@@ -254,3 +254,9 @@ Proof. exact (eq_refl real_max). Qed.
 Definition real_min : real -> real -> real := fun _23983 : real => fun _23984 : real => @COND real (real_le _23983 _23984) _23983 _23984.
 Lemma real_min_def : real_min = (fun _23983 : real => fun _23984 : real => @COND real (real_le _23983 _23984) _23983 _23984).
 Proof. exact (eq_refl real_min). Qed.
+Definition real_sgn : real -> real := fun _26471 : real => @COND real (real_lt (real_of_num (NUMERAL 0)) _26471) (real_of_num (NUMERAL (BIT1 0))) (@COND real (real_lt _26471 (real_of_num (NUMERAL 0))) (real_neg (real_of_num (NUMERAL (BIT1 0)))) (real_of_num (NUMERAL 0))).
+Lemma real_sgn_def : real_sgn = (fun _26471 : real => @COND real (real_lt (real_of_num (NUMERAL 0)) _26471) (real_of_num (NUMERAL (BIT1 0))) (@COND real (real_lt _26471 (real_of_num (NUMERAL 0))) (real_neg (real_of_num (NUMERAL (BIT1 0)))) (real_of_num (NUMERAL 0)))).
+Proof. exact (eq_refl real_sgn). Qed.
+Definition sqrt : real -> real := fun _27022 : real => @ε real (fun y : real => ((real_sgn y) = (real_sgn _27022)) /\ ((real_pow y (NUMERAL (BIT0 (BIT1 0)))) = (real_abs _27022))).
+Lemma sqrt_def : sqrt = (fun _27022 : real => @ε real (fun y : real => ((real_sgn y) = (real_sgn _27022)) /\ ((real_pow y (NUMERAL (BIT0 (BIT1 0)))) = (real_abs _27022)))).
+Proof. exact (eq_refl sqrt). Qed.
