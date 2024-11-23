@@ -5,7 +5,7 @@ set -e # to exit as soon as there is an error
 opam_version=2.2.1
 dune_version=3.7
 
-hol2dk_commit=628542c
+hol2dk_commit=46927fe
 hollight_commit=ea45176
 lambdapi_version=2.5.1
 ocaml_version=4.14.2
