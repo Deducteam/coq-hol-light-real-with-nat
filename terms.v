@@ -1,6 +1,5 @@
 Require Import HOLLight_Real.
 Require Import theory_hol.
-Require Import types.
 Definition _FALSITY_ : Prop := False.
 Lemma _FALSITY__def : _FALSITY_ = False.
 Proof. exact (eq_refl _FALSITY_). Qed.
