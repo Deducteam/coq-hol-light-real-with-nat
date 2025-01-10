@@ -29,17 +29,17 @@ builtin "ex_def" ≔ ∃_def;
 builtin "not" ≔ ¬;
 builtin "not_def" ≔ ¬_def;
 
-builtin "True" ≔ T;
-builtin "T_def" ≔ T_def;
+builtin "True" ≔ ⊤;
+builtin "T_def" ≔ ⊤_def;
 
-builtin "False" ≔ F;
-builtin "F_def" ≔ F_def;
+builtin "False" ≔ ⊥;
+builtin "F_def" ≔ ⊥_def;
 
-builtin "ex1" ≔ ∃!;
-builtin "ex1_def" ≔ ∃!_def;
+builtin "ex1" ≔ ∃₁;
+builtin "ex1_def" ≔ ∃₁_def;
 
 // natural deduction rules
-builtin "Logic.I" ≔ Tᵢ;
+builtin "Logic.I" ≔ ⊤ᵢ;
 builtin "conj" ≔ ∧ᵢ;
 builtin "proj1" ≔ ∧ₑ₁;
 builtin "proj2" ≔ ∧ₑ₂;
@@ -259,7 +259,7 @@ builtin "treal_mul" ≔ treal_mul;
 builtin "treal_inv" ≔ treal_inv;
 builtin "treal_neg" ≔ treal_neg;
 
-builtin "real" ≔ real;
+builtin "real" ≔ Real;
 builtin "mk_real" ≔ mk_real;
 builtin "dest_real" ≔ dest_real;
 builtin "axiom_23" ≔ axiom_23;

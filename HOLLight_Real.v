@@ -259,21 +259,22 @@ Section Quotient.
   Lemma is_eq_class_of x : is_eq_class (class_of x).
   Proof. exists x. reflexivity. Qed.
 
-  Local Definition a := el A.
+  Lemma non_empty : is_eq_class (class_of (el A)).
+  Proof. exists (el A). reflexivity. Qed.
 
-  Definition quotient := subtype (is_eq_class_of a).
+  Definition quotient := subtype non_empty.
 
-  Definition mk_quotient : (A -> Prop) -> quotient := mk (is_eq_class_of a).
-  Definition dest_quotient : quotient -> (A -> Prop) := dest (is_eq_class_of a).
+  Definition mk_quotient : (A -> Prop) -> quotient := mk non_empty.
+  Definition dest_quotient : quotient -> (A -> Prop) := dest non_empty.
 
   Lemma mk_dest_quotient : forall x, mk_quotient (dest_quotient x) = x.
-  Proof. exact (mk_dest (is_eq_class_of a)). Qed.
+  Proof. exact (mk_dest non_empty). Qed.
 
   Lemma dest_mk_aux_quotient : forall x, is_eq_class x -> (dest_quotient (mk_quotient x) = x).
-  Proof. exact (dest_mk_aux (is_eq_class_of a)). Qed.
+  Proof. exact (dest_mk_aux non_empty). Qed.
 
   Lemma dest_mk_quotient : forall x, is_eq_class x = (dest_quotient (mk_quotient x) = x).
-  Proof. exact (dest_mk (is_eq_class_of a)). Qed.
+  Proof. exact (dest_mk non_empty). Qed.
 
   Definition elt_of : quotient -> A := fun x => ε (dest_quotient x).
 
@@ -1616,7 +1617,7 @@ Proof.
   induction 1; unfold list_pred; intros R h; apply h.
   left; reflexivity.
   right. exists a''. exists (_dest_list l''). split. reflexivity. apply h.
-  induction l''. auto. right. exists a0. exists (_dest_list l''). split. reflexivity.
+  induction l''. auto. right. exists a. exists (_dest_list l''). split. reflexivity.
   apply h. exact IHl''.
 Qed.
 
@@ -1631,7 +1632,7 @@ Proof.
   intro e. rewrite <- e. intros P h. apply h. destruct (_mk_list r).
   left. reflexivity. right. exists t0. exists (_dest_list l). split.
   reflexivity. apply h. generalize l.
-  induction l0. left; reflexivity. right. exists a0. exists (_dest_list l0). split.
+  induction l0. left; reflexivity. right. exists a. exists (_dest_list l0). split.
   reflexivity. apply h. exact IHl0.
 Qed.
 
