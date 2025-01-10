@@ -35,8 +35,8 @@ builtin "T_def" ≔ T_def;
 builtin "False" ≔ F;
 builtin "F_def" ≔ F_def;
 
-builtin "ex1" ≔ ∃!;
-builtin "ex1_def" ≔ ∃!_def;
+builtin "ex1" ≔ ∃₁;
+builtin "ex1_def" ≔ ∃₁_def;
 
 // natural deduction rules
 builtin "Logic.I" ≔ Tᵢ;
@@ -259,7 +259,7 @@ builtin "treal_mul" ≔ treal_mul;
 builtin "treal_inv" ≔ treal_inv;
 builtin "treal_neg" ≔ treal_neg;
 
-builtin "real" ≔ real;
+builtin "real" ≔ Real;
 builtin "mk_real" ≔ mk_real;
 builtin "dest_real" ≔ dest_real;
 builtin "axiom_23" ≔ axiom_23;
