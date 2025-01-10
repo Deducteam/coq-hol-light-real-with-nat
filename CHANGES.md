@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - erasing.lp: update wrt https://github.com/Deducteam/hol2dk/pull/161 and https://github.com/Deducteam/hol2dk/pull/149
 - reproduce: update hollight, hol2dk and lambdapi versions
 - reproduce: add stage mechanism to run reproduce again by skipping stages that succeeded
+- terms.v, theorems.v: type arguments have readable names now
 
 ## 1.0.0 (2024-11-03)
 
