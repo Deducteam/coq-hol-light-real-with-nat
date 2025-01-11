@@ -96,7 +96,7 @@ translate_proofs() {
     mkdir -p output
     cd output
     make $jobs clean-all || true
-    hol2dk link $base --root-path ../../$root_path.v --erasing ../../erasing.lp
+    hol2dk config $base.ml --erasing ../../erasing.lp HOLLight_Real ../../Logic.v ../With_N.v ../../deps.mk
     make split
     make $jobs lp
     make $jobs v
@@ -121,7 +121,7 @@ create_and_check_opam_library() {
     sed -e "s/${base}_//g" -e "/^Require Import ${root_path}.types.$/d" ${base}_terms.v > ../opam/terms.v
     sed -e "s/${base}_//g" -e "/^Require Import ${root_path}.types.$/d" -e '/^Require Import ${root_path}.axioms.$/d' ${base}_opam.v > ../opam/theorems.v
     cd ../opam
-    cp ../../$root_path.v ../../Makefile .
+    cp ../../Logic.v ../../With_N.v ../../deps.mk ../../Makefile .
     make
     cd ..
 }
@@ -149,6 +149,11 @@ stage() {
         echo $1 > STAGE
     fi
 }
+
+if test -n "$1"
+then
+    expr $1 - 1 > STAGE
+fi
 
 stage 1 create_opam_switch
 stage 2 install_hol_light_deps
