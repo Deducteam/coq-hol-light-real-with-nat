@@ -4,7 +4,7 @@ set -e # to exit as soon as there is an error
 
 hollight_version=3.0.0 # for dependencies
 hollight_commit=28e4aed
-hol2dk_commit=a590067
+hol2dk_commit=123cf68
 lambdapi_commit=ccfa0e77
 
 opam_version=2.2.1
