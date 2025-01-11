@@ -4,7 +4,7 @@ set -e # to exit as soon as there is an error
 
 hollight_version=3.0.0 # for dependencies
 hollight_commit=28e4aed
-hol2dk_commit=123cf68
+hol2dk_commit=86bdfb0
 lambdapi_commit=ccfa0e77
 
 opam_version=2.2.1
@@ -96,7 +96,7 @@ translate_proofs() {
     mkdir -p output
     cd output
     make $jobs clean-all || true
-    hol2dk config $base.ml --erasing ../../erasing.lp HOLLight_Real ../../Logic.v ../With_N.v ../../deps.mk
+    hol2dk config $base.ml $root_path ../../Logic.v ../../With_N.v BinNat ../../deps.mk ../../erasing.lp
     make split
     make $jobs lp
     make $jobs v
@@ -121,7 +121,7 @@ create_and_check_opam_library() {
     sed -e "s/${base}_//g" -e "/^Require Import ${root_path}.types.$/d" ${base}_terms.v > ../opam/terms.v
     sed -e "s/${base}_//g" -e "/^Require Import ${root_path}.types.$/d" -e '/^Require Import ${root_path}.axioms.$/d' ${base}_opam.v > ../opam/theorems.v
     cd ../opam
-    cp ../../Logic.v ../../With_N.v ../../deps.mk ../../Makefile .
+    cp ../../*.v ../../deps.mk ../../Makefile .
     make
     cd ..
 }
