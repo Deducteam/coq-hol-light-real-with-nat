@@ -116,12 +116,10 @@ create_and_check_opam_library() {
     line
     echo create opam library ...
     mkdir -p opam
-    cd output
-    cp theory_hol.v ../opam
-    sed -e "s/${base}_//g" -e "/^Require Import ${root_path}.types.$/d" ${base}_terms.v > ../opam/terms.v
-    sed -e "s/${base}_//g" -e "/^Require Import ${root_path}.types.$/d" -e '/^Require Import ${root_path}.axioms.$/d' ${base}_opam.v > ../opam/theorems.v
-    cd ../opam
-    cp ../../*.v ../../deps.mk ../../Makefile .
+    cd opam
+    sed -e "s/${base}_//g" -e "/^Require Import ${root_path}.types.$/d" ../output/${base}_terms.v > terms.v
+    sed -e "s/${base}_//g" -e "/^Require Import ${root_path}.types.$/d" -e '/^Require Import ${root_path}.axioms.$/d' ../output/${base}_opam.v > theorems.v
+    cp ../../Logic.v ../../With_nat.v ../../With_N.v ../output/theory_hol.v ../../Makefile .
     make
     cd ..
 }
