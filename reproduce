@@ -4,7 +4,7 @@ set -e # to exit as soon as there is an error
 
 hollight_version=3.0.0 # for dependencies
 hollight_commit=28e4aed
-hol2dk_commit=a590067
+hol2dk_commit=832a0ec
 lambdapi_commit=ccfa0e77
 
 opam_version=2.2.1
@@ -36,8 +36,8 @@ checkout_commit() {
 
 create_opam_switch() {
     line
-    echo create opam switch reproduce ...
-    opam switch create reproduce $ocaml_version || (echo 'you can remove the opam switch reproduce with:'; echo 'opam switch remove reproduce'; exit 1)
+    echo create opam switch ...
+    opam switch create . $ocaml_version
 }
 
 install_hol_light_deps() {
@@ -95,8 +95,8 @@ translate_proofs() {
     echo translate HOL-Light proofs to lambdapi and coq ...
     mkdir -p output
     cd output
-    make $jobs clean-all || true
-    hol2dk link $base --root-path ../../$root_path.v --erasing ../../erasing.lp
+    if test -f Makefile; then make $jobs clean-all; fi
+    hol2dk config $base.ml $root_path ../../HOLLight_Real.v ../../deps.mk ../../erasing.lp
     make split
     make $jobs lp
     make $jobs v
@@ -150,6 +150,11 @@ stage() {
     fi
 }
 
+if test -n "$1"
+then
+    expr $1 - 1 > STAGE
+fi
+
 stage 1 create_opam_switch
 stage 2 install_hol_light_deps
 stage 3 install_lambdapi
@@ -161,4 +166,3 @@ stage 8 dump_proofs
 stage 9 translate_proofs
 stage 10 check_proofs
 stage 11 create_and_check_opam_library
-#stage 12 remove_opam_switch

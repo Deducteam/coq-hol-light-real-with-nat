@@ -1,5 +1,5 @@
 opam-version: "2.0"
-synopsis: "HOL-Light definition of real numbers in Coq"
+synopsis: "HOL-Light definition of real numbers in Coq using nat"
 description: """
 This library contains an automatic translation in Coq of the HOL-Light
 definition of real numbers using https://github.com/Deducteam/hol2dk.

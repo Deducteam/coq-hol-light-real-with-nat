@@ -1,7 +1,7 @@
-HOL-Light definition of real numbers in Coq
--------------------------------------------
+HOL-Light definition of real numbers in Coq using nat
+-----------------------------------------------------
 
-This library provides a translation in Coq of the definition of real numbers in HOL-Light.
+This library provides a translation in Coq of the definition of real numbers in HOL-Light, using the Coq type nat for natural numbers.
 
 It has been automatically generated from HOL-Light using [hol2dk](https://github.com/Deducteam/hol2dk) and [lambdapi](https://github.com/Deducteam/lambdapi).
 

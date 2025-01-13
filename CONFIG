@@ -1,0 +1,2 @@
+#!/bin/sh
+hol2dk config hol_upto_real.ml HOLLight_Real HOLLight_Real.v deps.mk erasing.lp
