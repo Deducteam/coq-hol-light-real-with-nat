@@ -1,4 +1,4 @@
-LIBNAME=HOLLight_Real
+LIBNAME=HOLLight_Real_With_nat
 
 .SUFFIXES:
 

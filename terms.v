@@ -1,5 +1,5 @@
-Require Import HOLLight_Real.
-Require Import HOLLight_Real.theory_hol.
+Require Import HOLLight_Real_With_nat.mappings.
+Require Import HOLLight_Real_With_nat.theory_hol.
 Definition _FALSITY_ : Prop := False.
 Lemma _FALSITY__def : _FALSITY_ = False.
 Proof. exact (eq_refl _FALSITY_). Qed.
