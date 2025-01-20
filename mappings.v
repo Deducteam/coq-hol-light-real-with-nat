@@ -72,7 +72,7 @@ Axiom fun_ext : forall {A B : Type} {f g : A -> B}, (forall x, (f x) = (g x)) ->
 
 Axiom prop_ext : forall {P Q : Prop}, (P -> Q) -> (Q -> P) -> P = Q.
 
-Require Import ClassicalFacts.
+Require Import Coq.Logic.ClassicalFacts.
 
 Lemma prop_degen : forall P, P = True \/ P = False.
 Proof.
@@ -81,7 +81,7 @@ Proof.
   intro P. apply classic.
 Qed.
 
-Require Import PropExtensionalityFacts.
+Require Import Coq.Logic.PropExtensionalityFacts.
 
 Lemma is_True P : (P = True) = P.
 Proof.
@@ -186,7 +186,7 @@ Qed.
 (* Alignment of subtypes. *)
 (*****************************************************************************)
 
-Require Import ProofIrrelevance.
+Require Import Coq.Logic.ProofIrrelevance.
 
 Section Subtype.
 
@@ -702,7 +702,7 @@ Qed.
 (* Useful lemmas on booleans and natural numbers. *)
 (****************************************************************************)
 
-Require Import Lia PeanoNat. Import Nat.
+Require Import Coq.micromega.Lia Coq.Arith.PeanoNat. Import Nat.
 
 Lemma eq_false_negb_true b : b = false -> negb b = true.
 Proof. intro e. subst. reflexivity. Qed.
@@ -1660,7 +1660,7 @@ Proof.
   set (l' := ε (_mk_list_pred r)). unfold _mk_list_pred. auto.
 Qed.
 
-Require Import ExtensionalityFacts.
+Require Import Coq.Logic.ExtensionalityFacts.
 
 Lemma ISO_def {A B : Type'} : (@is_inverse A B) = (fun _17569 : A -> B => fun _17570 : B -> A => (forall x : B, (_17569 (_17570 x)) = x) /\ (forall y : A, (_17570 (_17569 y)) = y)).
 Proof.
@@ -1668,7 +1668,7 @@ Proof.
   unfold is_inverse. apply prop_ext; tauto.
 Qed.
 
-Require Import List.
+Require Import Coq.Lists.List.
 
 Lemma APPEND_def {A : Type'} : (@app A) = (@ε ((prod nat (prod nat (prod nat (prod nat (prod nat nat))))) -> (list' A) -> (list' A) -> list' A) (fun APPEND' : (prod nat (prod nat (prod nat (prod nat (prod nat nat))))) -> (list A) -> (list A) -> list A => forall _17935 : prod nat (prod nat (prod nat (prod nat (prod nat nat)))), (forall l : list A, (APPEND' _17935 (@nil A) l) = l) /\ (forall h : A, forall t : list A, forall l : list A, (APPEND' _17935 (@cons A h t) l) = (@cons A h (APPEND' _17935 t l)))) (@pair nat (prod nat (prod nat (prod nat (prod nat nat)))) (NUMERAL (BIT1 (BIT0 (BIT0 (BIT0 (BIT0 (BIT0 (BIT1 0)))))))) (@pair nat (prod nat (prod nat (prod nat nat))) (NUMERAL (BIT0 (BIT0 (BIT0 (BIT0 (BIT1 (BIT0 (BIT1 0)))))))) (@pair nat (prod nat (prod nat nat)) (NUMERAL (BIT0 (BIT0 (BIT0 (BIT0 (BIT1 (BIT0 (BIT1 0)))))))) (@pair nat (prod nat nat) (NUMERAL (BIT1 (BIT0 (BIT1 (BIT0 (BIT0 (BIT0 (BIT1 0)))))))) (@pair nat nat (NUMERAL (BIT0 (BIT1 (BIT1 (BIT1 (BIT0 (BIT0 (BIT1 0)))))))) (NUMERAL (BIT0 (BIT0 (BIT1 (BIT0 (BIT0 (BIT0 (BIT1 0)))))))))))))).
 Proof.
@@ -2231,7 +2231,7 @@ Add Relation _ nadd_eq
     transitivity proved by nadd_eq_trans
 as nadd_eq_rel.
 
-Require Import Setoid.
+Require Import Coq.Setoids.Setoid.
 
 Add Morphism nadd_add
     with signature nadd_eq ==> nadd_eq ==> nadd_eq
