@@ -4,7 +4,7 @@ set -e # to exit as soon as there is an error
 
 hollight_version=3.0.0 # for dependencies
 hollight_commit=28e4aed
-hol2dk_commit=832a0ec
+hol2dk_commit=600c94e
 lambdapi_commit=ccfa0e77
 
 opam_version=2.2.1
@@ -90,13 +90,20 @@ dump_proofs() {
     cd ..
 }
 
-translate_proofs() {
+config_output_dir() {
     line
-    echo translate HOL-Light proofs to lambdapi and coq ...
+    echo configure output directory ...
     mkdir -p output
     cd output
     if test -f Makefile; then make $jobs clean-all; fi
-    hol2dk config $base.ml $root_path ../../mappings.v ../../mappings.mk ../../mappings.lp
+    hol2dk config $base.ml $root_path ../../mappings.v Coq.NArith.BinNat ../../mappings.mk ../../mappings.lp
+    cd ..
+}
+
+translate_proofs() {
+    line
+    echo translate HOL-Light proofs to lambdapi and coq ...
+    cd output
     make split
     make $jobs lp
     make $jobs v
@@ -108,28 +115,35 @@ check_proofs() {
     echo check proofs ...
     cd output
     make $jobs vo
-    make opam
     cd ..
 }
 
 create_and_check_opam_library() {
     line
     echo create opam library ...
-    mkdir -p opam
     cd output
-    cp theory_hol.v ../opam
-    sed -e "s/${base}_//g" -e "/^Require Import ${root_path}.types.$/d" ${base}_terms.v > ../opam/terms.v
-    sed -e "s/${base}_//g" -e "/^Require Import ${root_path}.types.$/d" -e '/^Require Import ${root_path}.axioms.$/d' ${base}_opam.v > ../opam/theorems.v
-    cd ../opam
-    cp ../../mappings.v ../../Makefile .
+    make opam
+    cd ..
+    mkdir -p opam
+    cd opam
+    cp ../../Makefile ../../mappings.v ../output/theory_hol.v .
+    sed -e "s/${base}_//g" -e "/^Require Import ${root_path}.types.$/d" ../output/${base}_terms.v > terms.v
+    sed -e "s/${base}_//g" -e "/^Require Import ${root_path}.types.$/d" -e '/^Require Import ${root_path}.axioms.$/d' ../output/${base}_opam.v > theorems.v
     make
     cd ..
 }
 
-remove_opam_switch() {
+compare_opam_file() {
     line
-    echo remove opam switch reproduce ...
-    opam switch remove reproduce
+    echo compare $1 ...
+    diff ../$1 opam/$1
+}
+
+compare_opam_files() {
+    for f in theory_hol.v terms.v theorems.v
+    do
+        compare_opam_file $f
+    done
 }
 
 export HOLLIGHT_DIR=`pwd`/hol-light
@@ -163,6 +177,8 @@ stage 5 install_hol2dk
 stage 6 install_hol_light
 stage 7 patch_hol_light
 stage 8 dump_proofs
-stage 9 translate_proofs
-stage 10 check_proofs
-stage 11 create_and_check_opam_library
+stage 9 config_output_dir
+stage 10 translate_proofs
+stage 11 check_proofs
+stage 12 create_and_check_opam_library
+stage 13 compare_opam_files
