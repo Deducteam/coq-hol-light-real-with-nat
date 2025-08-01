@@ -1,4 +1,4 @@
-Require Import HOLLight_Real_With_nat.mappings Coq.NArith.BinNat.
+Require Import HOLLight_Real_With_nat.mappings.
 Lemma TRANS {a : Type'} {x y z : a} (xy : x = y) (yz : y = z) : x = z.
 Proof. exact (@EQ_MP (x = y) (x = z) (@MK_COMB a Prop (@eq a x) (@eq a x) y z (@eq_refl (a -> Prop) (@eq a x)) yz) xy). Qed.
 Lemma SYM {a : Type'} {x y : a} (xy : x = y) : y = x.
