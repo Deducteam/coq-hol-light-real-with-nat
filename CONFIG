@@ -1,2 +1,0 @@
-#!/bin/sh
-hol2dk config hol_upto_real.ml HOLLight_Real_With_nat mappings.v mappings.mk mappings.lp
