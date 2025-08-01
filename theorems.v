@@ -1,4 +1,4 @@
-Require Import HOLLight_Real_With_nat.mappings Coq.NArith.BinNat.
+Require Import HOLLight_Real_With_nat.mappings Stdlib.NArith.BinNat.
 Require Import HOLLight_Real_With_nat.theory_hol.
 Require Import HOLLight_Real_With_nat.terms.
 Axiom thm_T_DEF : True = ((fun p : Prop => p) = (fun p : Prop => p)).
@@ -305,24 +305,24 @@ Axiom thm_num_WOP : forall P : nat -> Prop, (exists n : nat, P n) = (exists n : 
 Axiom thm_num_MAX : forall P : nat -> Prop, ((exists x : nat, P x) /\ (exists M : nat, forall x : nat, (P x) -> Peano.le x M)) = (exists m : nat, (P m) /\ (forall x : nat, (P x) -> Peano.le x m)).
 Axiom thm_LE_INDUCT : forall P : nat -> nat -> Prop, ((forall m : nat, P m m) /\ (forall m : nat, forall n : nat, ((Peano.le m n) /\ (P m n)) -> P m (S n))) -> forall m : nat, forall n : nat, (Peano.le m n) -> P m n.
 Axiom thm_num_INDUCTION_DOWN : forall P : nat -> Prop, forall m : nat, ((forall n : nat, (Peano.le m n) -> P n) /\ (forall n : nat, ((Peano.lt n m) /\ (P (Nat.add n (NUMERAL (BIT1 0))))) -> P n)) -> forall n : nat, P n.
-Axiom thm_EVEN : ((Coq.Arith.PeanoNat.Nat.Even (NUMERAL 0)) = True) /\ (forall n : nat, (Coq.Arith.PeanoNat.Nat.Even (S n)) = (~ (Coq.Arith.PeanoNat.Nat.Even n))).
-Axiom thm_ODD : ((Coq.Arith.PeanoNat.Nat.Odd (NUMERAL 0)) = False) /\ (forall n : nat, (Coq.Arith.PeanoNat.Nat.Odd (S n)) = (~ (Coq.Arith.PeanoNat.Nat.Odd n))).
-Axiom thm_NOT_EVEN : forall n : nat, (~ (Coq.Arith.PeanoNat.Nat.Even n)) = (Coq.Arith.PeanoNat.Nat.Odd n).
-Axiom thm_NOT_ODD : forall n : nat, (~ (Coq.Arith.PeanoNat.Nat.Odd n)) = (Coq.Arith.PeanoNat.Nat.Even n).
-Axiom thm_EVEN_OR_ODD : forall n : nat, (Coq.Arith.PeanoNat.Nat.Even n) \/ (Coq.Arith.PeanoNat.Nat.Odd n).
-Axiom thm_EVEN_AND_ODD : forall n : nat, ~ ((Coq.Arith.PeanoNat.Nat.Even n) /\ (Coq.Arith.PeanoNat.Nat.Odd n)).
-Axiom thm_EVEN_ADD : forall m : nat, forall n : nat, (Coq.Arith.PeanoNat.Nat.Even (Nat.add m n)) = ((Coq.Arith.PeanoNat.Nat.Even m) = (Coq.Arith.PeanoNat.Nat.Even n)).
-Axiom thm_EVEN_MULT : forall m : nat, forall n : nat, (Coq.Arith.PeanoNat.Nat.Even (Nat.mul m n)) = ((Coq.Arith.PeanoNat.Nat.Even m) \/ (Coq.Arith.PeanoNat.Nat.Even n)).
-Axiom thm_EVEN_EXP : forall m : nat, forall n : nat, (Coq.Arith.PeanoNat.Nat.Even (Nat.pow m n)) = ((Coq.Arith.PeanoNat.Nat.Even m) /\ (~ (n = (NUMERAL 0)))).
-Axiom thm_ODD_ADD : forall m : nat, forall n : nat, (Coq.Arith.PeanoNat.Nat.Odd (Nat.add m n)) = (~ ((Coq.Arith.PeanoNat.Nat.Odd m) = (Coq.Arith.PeanoNat.Nat.Odd n))).
-Axiom thm_ODD_MULT : forall m : nat, forall n : nat, (Coq.Arith.PeanoNat.Nat.Odd (Nat.mul m n)) = ((Coq.Arith.PeanoNat.Nat.Odd m) /\ (Coq.Arith.PeanoNat.Nat.Odd n)).
-Axiom thm_ODD_EXP : forall m : nat, forall n : nat, (Coq.Arith.PeanoNat.Nat.Odd (Nat.pow m n)) = ((Coq.Arith.PeanoNat.Nat.Odd m) \/ (n = (NUMERAL 0))).
-Axiom thm_EVEN_DOUBLE : forall n : nat, Coq.Arith.PeanoNat.Nat.Even (Nat.mul (NUMERAL (BIT0 (BIT1 0))) n).
-Axiom thm_ODD_DOUBLE : forall n : nat, Coq.Arith.PeanoNat.Nat.Odd (S (Nat.mul (NUMERAL (BIT0 (BIT1 0))) n)).
-Axiom thm_EVEN_EXISTS_LEMMA : forall n : nat, ((Coq.Arith.PeanoNat.Nat.Even n) -> exists m : nat, n = (Nat.mul (NUMERAL (BIT0 (BIT1 0))) m)) /\ ((~ (Coq.Arith.PeanoNat.Nat.Even n)) -> exists m : nat, n = (S (Nat.mul (NUMERAL (BIT0 (BIT1 0))) m))).
-Axiom thm_EVEN_EXISTS : forall n : nat, (Coq.Arith.PeanoNat.Nat.Even n) = (exists m : nat, n = (Nat.mul (NUMERAL (BIT0 (BIT1 0))) m)).
-Axiom thm_ODD_EXISTS : forall n : nat, (Coq.Arith.PeanoNat.Nat.Odd n) = (exists m : nat, n = (S (Nat.mul (NUMERAL (BIT0 (BIT1 0))) m))).
-Axiom thm_EVEN_ODD_DECOMPOSITION : forall n : nat, (exists k : nat, exists m : nat, (Coq.Arith.PeanoNat.Nat.Odd m) /\ (n = (Nat.mul (Nat.pow (NUMERAL (BIT0 (BIT1 0))) k) m))) = (~ (n = (NUMERAL 0))).
+Axiom thm_EVEN : ((Stdlib.Arith.PeanoNat.Nat.Even (NUMERAL 0)) = True) /\ (forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even (S n)) = (~ (Stdlib.Arith.PeanoNat.Nat.Even n))).
+Axiom thm_ODD : ((Stdlib.Arith.PeanoNat.Nat.Odd (NUMERAL 0)) = False) /\ (forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Odd (S n)) = (~ (Stdlib.Arith.PeanoNat.Nat.Odd n))).
+Axiom thm_NOT_EVEN : forall n : nat, (~ (Stdlib.Arith.PeanoNat.Nat.Even n)) = (Stdlib.Arith.PeanoNat.Nat.Odd n).
+Axiom thm_NOT_ODD : forall n : nat, (~ (Stdlib.Arith.PeanoNat.Nat.Odd n)) = (Stdlib.Arith.PeanoNat.Nat.Even n).
+Axiom thm_EVEN_OR_ODD : forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even n) \/ (Stdlib.Arith.PeanoNat.Nat.Odd n).
+Axiom thm_EVEN_AND_ODD : forall n : nat, ~ ((Stdlib.Arith.PeanoNat.Nat.Even n) /\ (Stdlib.Arith.PeanoNat.Nat.Odd n)).
+Axiom thm_EVEN_ADD : forall m : nat, forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even (Nat.add m n)) = ((Stdlib.Arith.PeanoNat.Nat.Even m) = (Stdlib.Arith.PeanoNat.Nat.Even n)).
+Axiom thm_EVEN_MULT : forall m : nat, forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even (Nat.mul m n)) = ((Stdlib.Arith.PeanoNat.Nat.Even m) \/ (Stdlib.Arith.PeanoNat.Nat.Even n)).
+Axiom thm_EVEN_EXP : forall m : nat, forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even (Nat.pow m n)) = ((Stdlib.Arith.PeanoNat.Nat.Even m) /\ (~ (n = (NUMERAL 0)))).
+Axiom thm_ODD_ADD : forall m : nat, forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Odd (Nat.add m n)) = (~ ((Stdlib.Arith.PeanoNat.Nat.Odd m) = (Stdlib.Arith.PeanoNat.Nat.Odd n))).
+Axiom thm_ODD_MULT : forall m : nat, forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Odd (Nat.mul m n)) = ((Stdlib.Arith.PeanoNat.Nat.Odd m) /\ (Stdlib.Arith.PeanoNat.Nat.Odd n)).
+Axiom thm_ODD_EXP : forall m : nat, forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Odd (Nat.pow m n)) = ((Stdlib.Arith.PeanoNat.Nat.Odd m) \/ (n = (NUMERAL 0))).
+Axiom thm_EVEN_DOUBLE : forall n : nat, Stdlib.Arith.PeanoNat.Nat.Even (Nat.mul (NUMERAL (BIT0 (BIT1 0))) n).
+Axiom thm_ODD_DOUBLE : forall n : nat, Stdlib.Arith.PeanoNat.Nat.Odd (S (Nat.mul (NUMERAL (BIT0 (BIT1 0))) n)).
+Axiom thm_EVEN_EXISTS_LEMMA : forall n : nat, ((Stdlib.Arith.PeanoNat.Nat.Even n) -> exists m : nat, n = (Nat.mul (NUMERAL (BIT0 (BIT1 0))) m)) /\ ((~ (Stdlib.Arith.PeanoNat.Nat.Even n)) -> exists m : nat, n = (S (Nat.mul (NUMERAL (BIT0 (BIT1 0))) m))).
+Axiom thm_EVEN_EXISTS : forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even n) = (exists m : nat, n = (Nat.mul (NUMERAL (BIT0 (BIT1 0))) m)).
+Axiom thm_ODD_EXISTS : forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Odd n) = (exists m : nat, n = (S (Nat.mul (NUMERAL (BIT0 (BIT1 0))) m))).
+Axiom thm_EVEN_ODD_DECOMPOSITION : forall n : nat, (exists k : nat, exists m : nat, (Stdlib.Arith.PeanoNat.Nat.Odd m) /\ (n = (Nat.mul (Nat.pow (NUMERAL (BIT0 (BIT1 0))) k) m))) = (~ (n = (NUMERAL 0))).
 Axiom thm_SUB : (forall m : nat, (Nat.sub m (NUMERAL 0)) = m) /\ (forall m : nat, forall n : nat, (Nat.sub m (S n)) = (Nat.pred (Nat.sub m n))).
 Axiom thm_SUB_0 : forall m : nat, ((Nat.sub (NUMERAL 0) m) = (NUMERAL 0)) /\ ((Nat.sub m (NUMERAL 0)) = m).
 Axiom thm_SUB_PRESUC : forall m : nat, forall n : nat, (Nat.pred (Nat.sub (S m) n)) = (Nat.sub m n).
@@ -339,8 +339,8 @@ Axiom thm_SUB_ADD_RCANCEL : forall m : nat, forall n : nat, forall p : nat, (Nat
 Axiom thm_LEFT_SUB_DISTRIB : forall m : nat, forall n : nat, forall p : nat, (Nat.mul m (Nat.sub n p)) = (Nat.sub (Nat.mul m n) (Nat.mul m p)).
 Axiom thm_RIGHT_SUB_DISTRIB : forall m : nat, forall n : nat, forall p : nat, (Nat.mul (Nat.sub m n) p) = (Nat.sub (Nat.mul m p) (Nat.mul n p)).
 Axiom thm_SUC_SUB1 : forall n : nat, (Nat.sub (S n) (NUMERAL (BIT1 0))) = n.
-Axiom thm_EVEN_SUB : forall m : nat, forall n : nat, (Coq.Arith.PeanoNat.Nat.Even (Nat.sub m n)) = ((Peano.le m n) \/ ((Coq.Arith.PeanoNat.Nat.Even m) = (Coq.Arith.PeanoNat.Nat.Even n))).
-Axiom thm_ODD_SUB : forall m : nat, forall n : nat, (Coq.Arith.PeanoNat.Nat.Odd (Nat.sub m n)) = ((Peano.lt n m) /\ (~ ((Coq.Arith.PeanoNat.Nat.Odd m) = (Coq.Arith.PeanoNat.Nat.Odd n)))).
+Axiom thm_EVEN_SUB : forall m : nat, forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even (Nat.sub m n)) = ((Peano.le m n) \/ ((Stdlib.Arith.PeanoNat.Nat.Even m) = (Stdlib.Arith.PeanoNat.Nat.Even n))).
+Axiom thm_ODD_SUB : forall m : nat, forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Odd (Nat.sub m n)) = ((Peano.lt n m) /\ (~ ((Stdlib.Arith.PeanoNat.Nat.Odd m) = (Stdlib.Arith.PeanoNat.Nat.Odd n)))).
 Axiom thm_FACT : ((Factorial.fact (NUMERAL 0)) = (NUMERAL (BIT1 0))) /\ (forall n : nat, (Factorial.fact (S n)) = (Nat.mul (S n) (Factorial.fact n))).
 Axiom thm_FACT_LT : forall n : nat, Peano.lt (NUMERAL 0) (Factorial.fact n).
 Axiom thm_FACT_LE : forall n : nat, Peano.le (NUMERAL (BIT1 0)) (Factorial.fact n).
@@ -386,7 +386,7 @@ Axiom thm_DIV_LT : forall m : nat, forall n : nat, (Peano.lt m n) -> (Nat.div m 
 Axiom thm_MOD_MOD : forall m : nat, forall n : nat, forall p : nat, (Nat.modulo (Nat.modulo m (Nat.mul n p)) n) = (Nat.modulo m n).
 Axiom thm_MOD_MOD_REFL : forall m : nat, forall n : nat, (Nat.modulo (Nat.modulo m n) n) = (Nat.modulo m n).
 Axiom thm_MOD_MOD_LE : forall m : nat, forall n : nat, forall p : nat, ((~ (n = (NUMERAL 0))) /\ (Peano.le n p)) -> (Nat.modulo (Nat.modulo m n) p) = (Nat.modulo m n).
-Axiom thm_MOD_EVEN_2 : forall m : nat, forall n : nat, (Coq.Arith.PeanoNat.Nat.Even n) -> (Nat.modulo (Nat.modulo m n) (NUMERAL (BIT0 (BIT1 0)))) = (Nat.modulo m (NUMERAL (BIT0 (BIT1 0)))).
+Axiom thm_MOD_EVEN_2 : forall m : nat, forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even n) -> (Nat.modulo (Nat.modulo m n) (NUMERAL (BIT0 (BIT1 0)))) = (Nat.modulo m (NUMERAL (BIT0 (BIT1 0)))).
 Axiom thm_DIV_MULT2 : forall m : nat, forall n : nat, forall p : nat, (~ (m = (NUMERAL 0))) -> (Nat.div (Nat.mul m n) (Nat.mul m p)) = (Nat.div n p).
 Axiom thm_MOD_MULT2 : forall m : nat, forall n : nat, forall p : nat, (Nat.modulo (Nat.mul m n) (Nat.mul m p)) = (Nat.mul m (Nat.modulo n p)).
 Axiom thm_MOD_EXISTS : forall m : nat, forall n : nat, (exists q : nat, m = (Nat.mul n q)) = (@COND Prop (n = (NUMERAL 0)) (m = (NUMERAL 0)) ((Nat.modulo m n) = (NUMERAL 0))).
@@ -402,13 +402,13 @@ Axiom thm_MOD_DIV_EQ_0 : forall m : nat, forall n : nat, (~ (n = (NUMERAL 0))) -
 Axiom thm_MOD_EQ_0 : forall m : nat, forall n : nat, ((Nat.modulo m n) = (NUMERAL 0)) = (exists q : nat, m = (Nat.mul q n)).
 Axiom thm_DIV_EQ_SELF : forall m : nat, forall n : nat, ((Nat.div m n) = m) = ((m = (NUMERAL 0)) \/ (n = (NUMERAL (BIT1 0)))).
 Axiom thm_MOD_REFL : forall n : nat, (Nat.modulo n n) = (NUMERAL 0).
-Axiom thm_EVEN_MOD : forall n : nat, (Coq.Arith.PeanoNat.Nat.Even n) = ((Nat.modulo n (NUMERAL (BIT0 (BIT1 0)))) = (NUMERAL 0)).
-Axiom thm_ODD_MOD : forall n : nat, (Coq.Arith.PeanoNat.Nat.Odd n) = ((Nat.modulo n (NUMERAL (BIT0 (BIT1 0)))) = (NUMERAL (BIT1 0))).
-Axiom thm_MOD_2_CASES : forall n : nat, (Nat.modulo n (NUMERAL (BIT0 (BIT1 0)))) = (@COND nat (Coq.Arith.PeanoNat.Nat.Even n) (NUMERAL 0) (NUMERAL (BIT1 0))).
-Axiom thm_EVEN_MOD_EVEN : forall m : nat, forall n : nat, (Coq.Arith.PeanoNat.Nat.Even n) -> (Coq.Arith.PeanoNat.Nat.Even (Nat.modulo m n)) = (Coq.Arith.PeanoNat.Nat.Even m).
-Axiom thm_ODD_MOD_EVEN : forall m : nat, forall n : nat, (Coq.Arith.PeanoNat.Nat.Even n) -> (Coq.Arith.PeanoNat.Nat.Odd (Nat.modulo m n)) = (Coq.Arith.PeanoNat.Nat.Odd m).
+Axiom thm_EVEN_MOD : forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even n) = ((Nat.modulo n (NUMERAL (BIT0 (BIT1 0)))) = (NUMERAL 0)).
+Axiom thm_ODD_MOD : forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Odd n) = ((Nat.modulo n (NUMERAL (BIT0 (BIT1 0)))) = (NUMERAL (BIT1 0))).
+Axiom thm_MOD_2_CASES : forall n : nat, (Nat.modulo n (NUMERAL (BIT0 (BIT1 0)))) = (@COND nat (Stdlib.Arith.PeanoNat.Nat.Even n) (NUMERAL 0) (NUMERAL (BIT1 0))).
+Axiom thm_EVEN_MOD_EVEN : forall m : nat, forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even n) -> (Stdlib.Arith.PeanoNat.Nat.Even (Nat.modulo m n)) = (Stdlib.Arith.PeanoNat.Nat.Even m).
+Axiom thm_ODD_MOD_EVEN : forall m : nat, forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even n) -> (Stdlib.Arith.PeanoNat.Nat.Odd (Nat.modulo m n)) = (Stdlib.Arith.PeanoNat.Nat.Odd m).
 Axiom thm_HALF_DOUBLE : (forall n : nat, (Nat.div (Nat.mul (NUMERAL (BIT0 (BIT1 0))) n) (NUMERAL (BIT0 (BIT1 0)))) = n) /\ (forall n : nat, (Nat.div (Nat.mul n (NUMERAL (BIT0 (BIT1 0)))) (NUMERAL (BIT0 (BIT1 0)))) = n).
-Axiom thm_DOUBLE_HALF : (forall n : nat, (Coq.Arith.PeanoNat.Nat.Even n) -> (Nat.mul (NUMERAL (BIT0 (BIT1 0))) (Nat.div n (NUMERAL (BIT0 (BIT1 0))))) = n) /\ (forall n : nat, (Coq.Arith.PeanoNat.Nat.Even n) -> (Nat.mul (Nat.div n (NUMERAL (BIT0 (BIT1 0)))) (NUMERAL (BIT0 (BIT1 0)))) = n).
+Axiom thm_DOUBLE_HALF : (forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even n) -> (Nat.mul (NUMERAL (BIT0 (BIT1 0))) (Nat.div n (NUMERAL (BIT0 (BIT1 0))))) = n) /\ (forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even n) -> (Nat.mul (Nat.div n (NUMERAL (BIT0 (BIT1 0)))) (NUMERAL (BIT0 (BIT1 0)))) = n).
 Axiom thm_MOD_MULT_RMOD : forall m : nat, forall n : nat, forall p : nat, (Nat.modulo (Nat.mul m (Nat.modulo p n)) n) = (Nat.modulo (Nat.mul m p) n).
 Axiom thm_MOD_MULT_LMOD : forall m : nat, forall n : nat, forall p : nat, (Nat.modulo (Nat.mul (Nat.modulo m n) p) n) = (Nat.modulo (Nat.mul m p) n).
 Axiom thm_MOD_MULT_MOD2 : forall m : nat, forall n : nat, forall p : nat, (Nat.modulo (Nat.mul (Nat.modulo m n) (Nat.modulo p n)) n) = (Nat.modulo (Nat.mul m p) n).
@@ -491,8 +491,8 @@ Axiom thm_ARITH_PRE : (forall n : nat, (Nat.pred (NUMERAL n)) = (NUMERAL (Nat.pr
 Axiom thm_ARITH_ADD : (forall m : nat, forall n : nat, (Nat.add (NUMERAL m) (NUMERAL n)) = (NUMERAL (Nat.add m n))) /\ (((Nat.add 0 0) = 0) /\ ((forall n : nat, (Nat.add 0 (BIT0 n)) = (BIT0 n)) /\ ((forall n : nat, (Nat.add 0 (BIT1 n)) = (BIT1 n)) /\ ((forall n : nat, (Nat.add (BIT0 n) 0) = (BIT0 n)) /\ ((forall n : nat, (Nat.add (BIT1 n) 0) = (BIT1 n)) /\ ((forall m : nat, forall n : nat, (Nat.add (BIT0 m) (BIT0 n)) = (BIT0 (Nat.add m n))) /\ ((forall m : nat, forall n : nat, (Nat.add (BIT0 m) (BIT1 n)) = (BIT1 (Nat.add m n))) /\ ((forall m : nat, forall n : nat, (Nat.add (BIT1 m) (BIT0 n)) = (BIT1 (Nat.add m n))) /\ (forall m : nat, forall n : nat, (Nat.add (BIT1 m) (BIT1 n)) = (BIT0 (S (Nat.add m n)))))))))))).
 Axiom thm_ARITH_MULT : (forall m : nat, forall n : nat, (Nat.mul (NUMERAL m) (NUMERAL n)) = (NUMERAL (Nat.mul m n))) /\ (((Nat.mul 0 0) = 0) /\ ((forall n : nat, (Nat.mul 0 (BIT0 n)) = 0) /\ ((forall n : nat, (Nat.mul 0 (BIT1 n)) = 0) /\ ((forall n : nat, (Nat.mul (BIT0 n) 0) = 0) /\ ((forall n : nat, (Nat.mul (BIT1 n) 0) = 0) /\ ((forall m : nat, forall n : nat, (Nat.mul (BIT0 m) (BIT0 n)) = (BIT0 (BIT0 (Nat.mul m n)))) /\ ((forall m : nat, forall n : nat, (Nat.mul (BIT0 m) (BIT1 n)) = (Nat.add (BIT0 m) (BIT0 (BIT0 (Nat.mul m n))))) /\ ((forall m : nat, forall n : nat, (Nat.mul (BIT1 m) (BIT0 n)) = (Nat.add (BIT0 n) (BIT0 (BIT0 (Nat.mul m n))))) /\ (forall m : nat, forall n : nat, (Nat.mul (BIT1 m) (BIT1 n)) = (Nat.add (BIT1 m) (Nat.add (BIT0 n) (BIT0 (BIT0 (Nat.mul m n)))))))))))))).
 Axiom thm_ARITH_EXP : (forall m : nat, forall n : nat, (Nat.pow (NUMERAL m) (NUMERAL n)) = (NUMERAL (Nat.pow m n))) /\ (((Nat.pow 0 0) = (BIT1 0)) /\ ((forall m : nat, (Nat.pow (BIT0 m) 0) = (BIT1 0)) /\ ((forall m : nat, (Nat.pow (BIT1 m) 0) = (BIT1 0)) /\ ((forall n : nat, (Nat.pow 0 (BIT0 n)) = (Nat.mul (Nat.pow 0 n) (Nat.pow 0 n))) /\ ((forall m : nat, forall n : nat, (Nat.pow (BIT0 m) (BIT0 n)) = (Nat.mul (Nat.pow (BIT0 m) n) (Nat.pow (BIT0 m) n))) /\ ((forall m : nat, forall n : nat, (Nat.pow (BIT1 m) (BIT0 n)) = (Nat.mul (Nat.pow (BIT1 m) n) (Nat.pow (BIT1 m) n))) /\ ((forall n : nat, (Nat.pow 0 (BIT1 n)) = 0) /\ ((forall m : nat, forall n : nat, (Nat.pow (BIT0 m) (BIT1 n)) = (Nat.mul (BIT0 m) (Nat.mul (Nat.pow (BIT0 m) n) (Nat.pow (BIT0 m) n)))) /\ (forall m : nat, forall n : nat, (Nat.pow (BIT1 m) (BIT1 n)) = (Nat.mul (BIT1 m) (Nat.mul (Nat.pow (BIT1 m) n) (Nat.pow (BIT1 m) n)))))))))))).
-Axiom thm_ARITH_EVEN : (forall n : nat, (Coq.Arith.PeanoNat.Nat.Even (NUMERAL n)) = (Coq.Arith.PeanoNat.Nat.Even n)) /\ (((Coq.Arith.PeanoNat.Nat.Even 0) = True) /\ ((forall n : nat, (Coq.Arith.PeanoNat.Nat.Even (BIT0 n)) = True) /\ (forall n : nat, (Coq.Arith.PeanoNat.Nat.Even (BIT1 n)) = False))).
-Axiom thm_ARITH_ODD : (forall n : nat, (Coq.Arith.PeanoNat.Nat.Odd (NUMERAL n)) = (Coq.Arith.PeanoNat.Nat.Odd n)) /\ (((Coq.Arith.PeanoNat.Nat.Odd 0) = False) /\ ((forall n : nat, (Coq.Arith.PeanoNat.Nat.Odd (BIT0 n)) = False) /\ (forall n : nat, (Coq.Arith.PeanoNat.Nat.Odd (BIT1 n)) = True))).
+Axiom thm_ARITH_EVEN : (forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even (NUMERAL n)) = (Stdlib.Arith.PeanoNat.Nat.Even n)) /\ (((Stdlib.Arith.PeanoNat.Nat.Even 0) = True) /\ ((forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even (BIT0 n)) = True) /\ (forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even (BIT1 n)) = False))).
+Axiom thm_ARITH_ODD : (forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Odd (NUMERAL n)) = (Stdlib.Arith.PeanoNat.Nat.Odd n)) /\ (((Stdlib.Arith.PeanoNat.Nat.Odd 0) = False) /\ ((forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Odd (BIT0 n)) = False) /\ (forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Odd (BIT1 n)) = True))).
 Axiom thm_ARITH_LE : (forall m : nat, forall n : nat, (Peano.le (NUMERAL m) (NUMERAL n)) = (Peano.le m n)) /\ (((Peano.le 0 0) = True) /\ ((forall n : nat, (Peano.le (BIT0 n) 0) = (Peano.le n 0)) /\ ((forall n : nat, (Peano.le (BIT1 n) 0) = False) /\ ((forall n : nat, (Peano.le 0 (BIT0 n)) = True) /\ ((forall n : nat, (Peano.le 0 (BIT1 n)) = True) /\ ((forall m : nat, forall n : nat, (Peano.le (BIT0 m) (BIT0 n)) = (Peano.le m n)) /\ ((forall m : nat, forall n : nat, (Peano.le (BIT0 m) (BIT1 n)) = (Peano.le m n)) /\ ((forall m : nat, forall n : nat, (Peano.le (BIT1 m) (BIT0 n)) = (Peano.lt m n)) /\ (forall m : nat, forall n : nat, (Peano.le (BIT1 m) (BIT1 n)) = (Peano.le m n)))))))))).
 Axiom thm_ARITH_LT : (forall m : nat, forall n : nat, (Peano.lt (NUMERAL m) (NUMERAL n)) = (Peano.lt m n)) /\ (((Peano.lt 0 0) = False) /\ ((forall n : nat, (Peano.lt (BIT0 n) 0) = False) /\ ((forall n : nat, (Peano.lt (BIT1 n) 0) = False) /\ ((forall n : nat, (Peano.lt 0 (BIT0 n)) = (Peano.lt 0 n)) /\ ((forall n : nat, (Peano.lt 0 (BIT1 n)) = True) /\ ((forall m : nat, forall n : nat, (Peano.lt (BIT0 m) (BIT0 n)) = (Peano.lt m n)) /\ ((forall m : nat, forall n : nat, (Peano.lt (BIT0 m) (BIT1 n)) = (Peano.le m n)) /\ ((forall m : nat, forall n : nat, (Peano.lt (BIT1 m) (BIT0 n)) = (Peano.lt m n)) /\ (forall m : nat, forall n : nat, (Peano.lt (BIT1 m) (BIT1 n)) = (Peano.lt m n)))))))))).
 Axiom thm_ARITH_EQ : (forall m : nat, forall n : nat, ((NUMERAL m) = (NUMERAL n)) = (m = n)) /\ (((0 = 0) = True) /\ ((forall n : nat, ((BIT0 n) = 0) = (n = 0)) /\ ((forall n : nat, ((BIT1 n) = 0) = False) /\ ((forall n : nat, (0 = (BIT0 n)) = (0 = n)) /\ ((forall n : nat, (0 = (BIT1 n)) = False) /\ ((forall m : nat, forall n : nat, ((BIT0 m) = (BIT0 n)) = (m = n)) /\ ((forall m : nat, forall n : nat, ((BIT0 m) = (BIT1 n)) = False) /\ ((forall m : nat, forall n : nat, ((BIT1 m) = (BIT0 n)) = False) /\ (forall m : nat, forall n : nat, ((BIT1 m) = (BIT1 n)) = (m = n)))))))))).
@@ -894,7 +894,7 @@ Axiom thm_REAL_LE_LNEG : forall x : real, forall y : real, (real_le (real_neg x)
 Axiom thm_REAL_LE_NEG2 : forall x : real, forall y : real, (real_le (real_neg x) (real_neg y)) = (real_le y x).
 Axiom thm_REAL_LE_RNEG : forall x : real, forall y : real, (real_le x (real_neg y)) = (real_le (real_add x y) (real_of_num (NUMERAL 0))).
 Axiom thm_REAL_OF_NUM_POW : forall x : nat, forall n : nat, (real_pow (real_of_num x) n) = (real_of_num (Nat.pow x n)).
-Axiom thm_REAL_POW_NEG : forall x : real, forall n : nat, (real_pow (real_neg x) n) = (@COND real (Coq.Arith.PeanoNat.Nat.Even n) (real_pow x n) (real_neg (real_pow x n))).
+Axiom thm_REAL_POW_NEG : forall x : real, forall n : nat, (real_pow (real_neg x) n) = (@COND real (Stdlib.Arith.PeanoNat.Nat.Even n) (real_pow x n) (real_neg (real_pow x n))).
 Axiom thm_REAL_ABS_NUM : forall n : nat, (real_abs (real_of_num n)) = (real_of_num n).
 Axiom thm_REAL_ABS_NEG : forall x : real, (real_abs (real_neg x)) = (real_abs x).
 Axiom thm_REAL_LTE_TOTAL : forall x : real, forall y : real, (real_lt x y) \/ (real_le y x).
@@ -1166,15 +1166,15 @@ Axiom thm_REAL_POW_LT2_REV : forall n : nat, forall x : real, forall y : real, (
 Axiom thm_REAL_POW_EQ : forall n : nat, forall x : real, forall y : real, ((~ (n = (NUMERAL 0))) /\ ((real_le (real_of_num (NUMERAL 0)) x) /\ ((real_le (real_of_num (NUMERAL 0)) y) /\ ((real_pow x n) = (real_pow y n))))) -> x = y.
 Axiom thm_REAL_POW_EQ_ABS : forall n : nat, forall x : real, forall y : real, ((~ (n = (NUMERAL 0))) /\ ((real_pow x n) = (real_pow y n))) -> (real_abs x) = (real_abs y).
 Axiom thm_REAL_POW_EQ_1_IMP : forall x : real, forall n : nat, ((~ (n = (NUMERAL 0))) /\ ((real_pow x n) = (real_of_num (NUMERAL (BIT1 0))))) -> (real_abs x) = (real_of_num (NUMERAL (BIT1 0))).
-Axiom thm_REAL_POW_EQ_1 : forall x : real, forall n : nat, ((real_pow x n) = (real_of_num (NUMERAL (BIT1 0)))) = ((((real_abs x) = (real_of_num (NUMERAL (BIT1 0)))) /\ ((real_lt x (real_of_num (NUMERAL 0))) -> Coq.Arith.PeanoNat.Nat.Even n)) \/ (n = (NUMERAL 0))).
-Axiom thm_REAL_POW_LT2_ODD : forall n : nat, forall x : real, forall y : real, ((real_lt x y) /\ (Coq.Arith.PeanoNat.Nat.Odd n)) -> real_lt (real_pow x n) (real_pow y n).
-Axiom thm_REAL_POW_LE2_ODD : forall n : nat, forall x : real, forall y : real, ((real_le x y) /\ (Coq.Arith.PeanoNat.Nat.Odd n)) -> real_le (real_pow x n) (real_pow y n).
-Axiom thm_REAL_POW_LT2_ODD_EQ : forall n : nat, forall x : real, forall y : real, (Coq.Arith.PeanoNat.Nat.Odd n) -> (real_lt (real_pow x n) (real_pow y n)) = (real_lt x y).
-Axiom thm_REAL_POW_LE2_ODD_EQ : forall n : nat, forall x : real, forall y : real, (Coq.Arith.PeanoNat.Nat.Odd n) -> (real_le (real_pow x n) (real_pow y n)) = (real_le x y).
-Axiom thm_REAL_POW_EQ_ODD_EQ : forall n : nat, forall x : real, forall y : real, (Coq.Arith.PeanoNat.Nat.Odd n) -> ((real_pow x n) = (real_pow y n)) = (x = y).
-Axiom thm_REAL_POW_EQ_ODD : forall n : nat, forall x : real, forall y : real, ((Coq.Arith.PeanoNat.Nat.Odd n) /\ ((real_pow x n) = (real_pow y n))) -> x = y.
-Axiom thm_REAL_POW_EQ_EQ : forall n : nat, forall x : real, forall y : real, ((real_pow x n) = (real_pow y n)) = (@COND Prop (Coq.Arith.PeanoNat.Nat.Even n) ((n = (NUMERAL 0)) \/ ((real_abs x) = (real_abs y))) (x = y)).
-Axiom thm_REAL_EVENPOW_ABS : forall x : real, forall n : nat, (Coq.Arith.PeanoNat.Nat.Even n) -> (real_pow (real_abs x) n) = (real_pow x n).
+Axiom thm_REAL_POW_EQ_1 : forall x : real, forall n : nat, ((real_pow x n) = (real_of_num (NUMERAL (BIT1 0)))) = ((((real_abs x) = (real_of_num (NUMERAL (BIT1 0)))) /\ ((real_lt x (real_of_num (NUMERAL 0))) -> Stdlib.Arith.PeanoNat.Nat.Even n)) \/ (n = (NUMERAL 0))).
+Axiom thm_REAL_POW_LT2_ODD : forall n : nat, forall x : real, forall y : real, ((real_lt x y) /\ (Stdlib.Arith.PeanoNat.Nat.Odd n)) -> real_lt (real_pow x n) (real_pow y n).
+Axiom thm_REAL_POW_LE2_ODD : forall n : nat, forall x : real, forall y : real, ((real_le x y) /\ (Stdlib.Arith.PeanoNat.Nat.Odd n)) -> real_le (real_pow x n) (real_pow y n).
+Axiom thm_REAL_POW_LT2_ODD_EQ : forall n : nat, forall x : real, forall y : real, (Stdlib.Arith.PeanoNat.Nat.Odd n) -> (real_lt (real_pow x n) (real_pow y n)) = (real_lt x y).
+Axiom thm_REAL_POW_LE2_ODD_EQ : forall n : nat, forall x : real, forall y : real, (Stdlib.Arith.PeanoNat.Nat.Odd n) -> (real_le (real_pow x n) (real_pow y n)) = (real_le x y).
+Axiom thm_REAL_POW_EQ_ODD_EQ : forall n : nat, forall x : real, forall y : real, (Stdlib.Arith.PeanoNat.Nat.Odd n) -> ((real_pow x n) = (real_pow y n)) = (x = y).
+Axiom thm_REAL_POW_EQ_ODD : forall n : nat, forall x : real, forall y : real, ((Stdlib.Arith.PeanoNat.Nat.Odd n) /\ ((real_pow x n) = (real_pow y n))) -> x = y.
+Axiom thm_REAL_POW_EQ_EQ : forall n : nat, forall x : real, forall y : real, ((real_pow x n) = (real_pow y n)) = (@COND Prop (Stdlib.Arith.PeanoNat.Nat.Even n) ((n = (NUMERAL 0)) \/ ((real_abs x) = (real_abs y))) (x = y)).
+Axiom thm_REAL_EVENPOW_ABS : forall x : real, forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even n) -> (real_pow (real_abs x) n) = (real_pow x n).
 Axiom thm_REAL_OF_NUM_MOD : forall m : nat, forall n : nat, (real_of_num (Nat.modulo m n)) = (real_sub (real_of_num m) (real_mul (real_of_num (Nat.div m n)) (real_of_num n))).
 Axiom thm_REAL_OF_NUM_DIV : forall m : nat, forall n : nat, (real_of_num (Nat.div m n)) = (real_sub (real_div (real_of_num m) (real_of_num n)) (real_div (real_of_num (Nat.modulo m n)) (real_of_num n))).
 Axiom thm_REAL_CONVEX_BOUND2_LT : forall (b : real), forall x : real, forall y : real, forall a : real, forall u : real, forall v : real, ((real_lt x a) /\ ((real_lt y b) /\ ((real_le (real_of_num (NUMERAL 0)) u) /\ ((real_le (real_of_num (NUMERAL 0)) v) /\ ((real_add u v) = (real_of_num (NUMERAL (BIT1 0)))))))) -> real_lt (real_add (real_mul u x) (real_mul v y)) (real_add (real_mul u a) (real_mul v b)).
@@ -1250,7 +1250,7 @@ Axiom thm_REAL_LE_LSQRT : forall x : real, forall y : real, ((real_le (real_of_n
 Axiom thm_REAL_LE_RSQRT : forall x : real, forall y : real, (real_le (real_pow x (NUMERAL (BIT0 (BIT1 0)))) y) -> real_le x (sqrt y).
 Axiom thm_REAL_LT_LSQRT : forall x : real, forall y : real, ((real_le (real_of_num (NUMERAL 0)) y) /\ (real_lt x (real_pow y (NUMERAL (BIT0 (BIT1 0)))))) -> real_lt (sqrt x) y.
 Axiom thm_REAL_LT_RSQRT : forall x : real, forall y : real, (real_lt (real_pow x (NUMERAL (BIT0 (BIT1 0)))) y) -> real_lt x (sqrt y).
-Axiom thm_SQRT_EVEN_POW2 : forall n : nat, (Coq.Arith.PeanoNat.Nat.Even n) -> (sqrt (real_pow (real_of_num (NUMERAL (BIT0 (BIT1 0)))) n)) = (real_pow (real_of_num (NUMERAL (BIT0 (BIT1 0)))) (Nat.div n (NUMERAL (BIT0 (BIT1 0))))).
+Axiom thm_SQRT_EVEN_POW2 : forall n : nat, (Stdlib.Arith.PeanoNat.Nat.Even n) -> (sqrt (real_pow (real_of_num (NUMERAL (BIT0 (BIT1 0)))) n)) = (real_pow (real_of_num (NUMERAL (BIT0 (BIT1 0)))) (Nat.div n (NUMERAL (BIT0 (BIT1 0))))).
 Axiom thm_REAL_DIV_SQRT : forall x : real, (real_le (real_of_num (NUMERAL 0)) x) -> (real_div x (sqrt x)) = (sqrt x).
 Axiom thm_REAL_RSQRT_LE : forall x : real, forall y : real, ((real_le (real_of_num (NUMERAL 0)) x) /\ ((real_le (real_of_num (NUMERAL 0)) y) /\ (real_le x (sqrt y)))) -> real_le (real_pow x (NUMERAL (BIT0 (BIT1 0)))) y.
 Axiom thm_REAL_LSQRT_LE : forall x : real, forall y : real, ((real_le (real_of_num (NUMERAL 0)) x) /\ (real_le (sqrt x) y)) -> real_le x (real_pow y (NUMERAL (BIT0 (BIT1 0)))).
