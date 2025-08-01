@@ -39,12 +39,6 @@ Proof. rewrite h1, h2. reflexivity. Qed.
 Lemma EQ_MP {p q : Prop} (e : p = q) (h : p) : q.
 Proof. rewrite <- e. apply h. Qed.
 
-Lemma TRANS {a : Type'} {x y z : a} (xy : x = y) (yz : y = z) : x = z.
-Proof. exact (@EQ_MP (x = y) (x = z) (@MK_COMB a Prop (@eq a x) (@eq a x) y z (@eq_refl (a -> Prop) (@eq a x)) yz) xy). Qed.
-
-Lemma SYM {a : Type'} {x y : a} (xy : x = y) : y = x.
-Proof. exact (@EQ_MP (x = x) (y = x) (@MK_COMB a Prop (@eq a x) (@eq a y) x x (@MK_COMB a (a -> Prop) (@eq a) (@eq a) x y (@eq_refl (a -> a -> Prop) (@eq a)) xy) (@eq_refl a x)) (@eq_refl a x)). Qed.
-
 (****************************************************************************)
 (* Proof of some natural deduction rules. *)
 (****************************************************************************)
@@ -767,6 +761,9 @@ Proof. induction y. simpl. lia. simpl. rewrite IHy. lia. Qed.
 (****************************************************************************)
 
 Definition NUMERAL (x : nat) := x.
+
+Lemma NUMERAL_def : NUMERAL = (fun _2128 : nat => _2128).
+Proof. reflexivity. Qed.
 
 Fixpoint BIT0 n :=
   match n with

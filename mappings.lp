@@ -53,6 +53,8 @@ builtin "ex_elim" ≔ ∃ₑ;
 builtin "eq_refl" ≔ REFL;
 builtin "EQ_MP" ≔ EQ_MP;
 builtin "MK_COMB" ≔ MK_COMB;
+builtin "eq_trans" ≔ TRANS;
+builtin "eq_sym" ≔ SYM;
 
 // HOL-Light axioms
 builtin "ε" ≔ ε;
@@ -105,6 +107,8 @@ builtin "axiom_7" ≔ axiom_7;
 builtin "axiom_8" ≔ axiom_8;
 
 // usual mathematical functions on natural numbers
+builtin "NUMERAL" ≔ NUMERAL;
+builtin "NUMERAL_def" ≔ NUMERAL_def;
 builtin "BIT0" ≔ BIT0;
 builtin "BIT0_def" ≔ BIT0_def;
 builtin "BIT1" ≔ BIT1;
