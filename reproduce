@@ -103,7 +103,7 @@ config_output_dir() {
     mkdir -p output
     cd output
     if test -f Makefile; then make $jobs clean-all; fi
-    hol2dk config $hollight_file $root_path Stdlib.NArith.BinNat ../../type.v ../../mappings.v ../../mappings.mk ../../mappings.lp
+    hol2dk config $hollight_file $root_path ../../mappings.v ../../mappings.lp
     cd ..
 }
 
