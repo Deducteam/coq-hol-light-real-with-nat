@@ -1067,8 +1067,7 @@ Proof.
 
   subst x2. split. reflexivity.
   generalize (f_equal (fun x => div x (2 ^ x1)) e). rewrite !DIV_MULT. lia.
-  apply pow_nonzero. lia.
-  apply pow_nonzero. lia.
+  apply pow_nonzero. lia. apply pow_nonzero. lia.
 
   apply False_rec. destruct (ge_is_add h) as [k hk]. subst x1.
   generalize (f_equal (fun x => div x (2 ^ x2)) e).
@@ -1307,8 +1306,7 @@ Proof.
   unfold NUMSUM. unfold NUMERAL, BIT1, BIT0.
   destruct (prop_degen b1); destruct (prop_degen b2); subst; try rewrite !COND_True; try rewrite !COND_False; intro e.
   split. auto. lia.
-  apply False_rec. lia.
-  apply False_rec. lia.
+  apply False_rec. lia. apply False_rec. lia.
   split. auto. lia.
 Qed.
 
@@ -1891,7 +1889,7 @@ Proof.
   generalize (ε_spec i). intro H. symmetry. induction l as [|a l]; simpl. apply H. rewrite <- IHl.
   transitivity ((x = a \/ ε Q p x l)). apply H. apply prop_ext.
   intro. destruct H0. left. symmetry. exact H0. right. exact H0.
-  intro. destruct H0. left. symmetry. exact H0. right. exact H0.
+  firstorder.
 Qed.
 
 Definition repeat_with_perm_args {A: Type'} (n: nat) (a: A) := @repeat A a n.
@@ -2055,7 +2053,8 @@ Proof.
   apply is_true_inj; apply e2.
   apply is_true_inj; apply e2.
   apply is_true_inj; apply e2.
-  apply is_true_inj; apply e2. split.
+  apply is_true_inj; apply e2.
+  split.
   apply is_true_inj; apply e2.
   apply is_true_inj; apply e2.
   destruct H; rewrite H. destruct H0; rewrite H0. destruct H1; rewrite H1. destruct H2; rewrite H2. destruct H3; rewrite H3.
@@ -2351,7 +2350,6 @@ Proof.
   rewrite <- (mk_hreal_nadd_eq p), <- (mk_hreal_nadd_eq q), hreal_add_of_mk_hreal.
   unfold mk_hreal at 3. unfold mk_hreal at 3. rewrite !mk_quotient_elt_of.
   reflexivity.
-  apply NADD_EQ_REFL. apply nadd_eq_sym. apply nadd_eq_trans.
   apply NADD_EQ_REFL. apply nadd_eq_sym. apply nadd_eq_trans.
 Qed.*)
 
