@@ -53,6 +53,8 @@ builtin "ex_elim" ≔ ∃ₑ;
 builtin "eq_refl" ≔ REFL;
 builtin "EQ_MP" ≔ EQ_MP;
 builtin "MK_COMB" ≔ MK_COMB;
+builtin "eq_trans" ≔ TRANS;
+builtin "eq_sym" ≔ SYM;
 
 // HOL-Light axioms
 builtin "ε" ≔ ε;
@@ -62,7 +64,7 @@ builtin "fun_ext" ≔ fun_ext;
 builtin "prop_ext" ≔ prop_ext;
 
 // unit type
-builtin "unit" ≔ 1;
+builtin "unit" ≔ unit;
 builtin "tt" ≔ one;
 builtin "one_def" ≔ one_def;
 builtin "one_ABS" ≔ one_ABS;
@@ -105,6 +107,8 @@ builtin "axiom_7" ≔ axiom_7;
 builtin "axiom_8" ≔ axiom_8;
 
 // usual mathematical functions on natural numbers
+builtin "NUMERAL" ≔ NUMERAL;
+builtin "NUMERAL_def" ≔ NUMERAL_def;
 builtin "BIT0" ≔ BIT0;
 builtin "BIT0_def" ≔ BIT0_def;
 builtin "BIT1" ≔ BIT1;
@@ -137,9 +141,9 @@ builtin "Nat.div" ≔ DIV;
 builtin "DIV_def" ≔ DIV_def;
 builtin "Nat.modulo" ≔ MOD;
 builtin "MOD_def" ≔ MOD_def;
-builtin "Coq.Arith.PeanoNat.Nat.Even" ≔ EVEN;
+builtin "Stdlib.Arith.PeanoNat.Nat.Even" ≔ EVEN;
 builtin "EVEN_def" ≔ EVEN_def;
-builtin "Coq.Arith.PeanoNat.Nat.Odd" ≔ ODD;
+builtin "Stdlib.Arith.PeanoNat.Nat.Odd" ≔ ODD;
 builtin "ODD_def" ≔ ODD_def;
 
 // indtypes
@@ -246,7 +250,6 @@ builtin "axiom_22" ≔ axiom_22;
 
 builtin "hreal_of_num" ≔ hreal_of_num;
 builtin "hreal_le" ≔ hreal_le;
-builtin "hreal_eq" ≔ hreal_eq;
 builtin "hreal_add" ≔ hreal_add;
 builtin "hreal_mul" ≔ hreal_mul;
 builtin "hreal_inv" ≔ hreal_inv;

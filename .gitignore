@@ -3,5 +3,5 @@
 .*.cache
 .*.aux
 .*.d
-Makefile.coq*
+rocq.mk*
 _CoqProject

@@ -60,7 +60,7 @@ Proof. exact (@ex_ind a p r h2 h1). Qed.
 (* Coq axioms necessary to handle HOL-Light proofs. *)
 (****************************************************************************)
 
-Require Import Coq.Logic.ClassicalEpsilon.
+Require Import Stdlib.Logic.ClassicalEpsilon.
 
 Definition ε : forall {A : Type'}, (type A -> Prop) -> type A :=
   fun A P => epsilon (inhabits (el A)) P.
@@ -72,7 +72,7 @@ Axiom fun_ext : forall {A B : Type} {f g : A -> B}, (forall x, (f x) = (g x)) ->
 
 Axiom prop_ext : forall {P Q : Prop}, (P -> Q) -> (Q -> P) -> P = Q.
 
-Require Import Coq.Logic.ClassicalFacts.
+Require Import Stdlib.Logic.ClassicalFacts.
 
 Lemma prop_degen : forall P, P = True \/ P = False.
 Proof.
@@ -81,7 +81,7 @@ Proof.
   intro P. apply classic.
 Qed.
 
-Require Import Coq.Logic.PropExtensionalityFacts.
+Require Import Stdlib.Logic.PropExtensionalityFacts.
 
 Lemma is_True P : (P = True) = P.
 Proof.
@@ -186,7 +186,7 @@ Qed.
 (* Alignment of subtypes. *)
 (*****************************************************************************)
 
-Require Import Coq.Logic.ProofIrrelevance.
+Require Import Stdlib.Logic.ProofIrrelevance.
 
 Section Subtype.
 
@@ -702,7 +702,7 @@ Qed.
 (* Useful lemmas on booleans and natural numbers. *)
 (****************************************************************************)
 
-Require Import Coq.micromega.Lia Coq.Arith.PeanoNat. Import Nat.
+Require Import Stdlib.micromega.Lia Stdlib.Arith.PeanoNat. Import Nat.
 
 Lemma eq_false_negb_true b : b = false -> negb b = true.
 Proof. intro e. subst. reflexivity. Qed.
@@ -761,6 +761,9 @@ Proof. induction y. simpl. lia. simpl. rewrite IHy. lia. Qed.
 (****************************************************************************)
 
 Definition NUMERAL (x : nat) := x.
+
+Lemma NUMERAL_def : NUMERAL = (fun _2128 : nat => _2128).
+Proof. reflexivity. Qed.
 
 Fixpoint BIT0 n :=
   match n with
@@ -932,7 +935,7 @@ Proof.
   intro x. generalize (h x 0). rewrite refl_is_True, COND_True. intros [h1 h2].
   rewrite h1. reflexivity.
   intro x. generalize (h x (S y)). rewrite S_eq_0_is_False, COND_False. intros [h1 h2].
-  simpl. generalize (Coq.Arith.PeanoNat.Nat.divmod_spec x y 0 y (le_n y)).
+  simpl. generalize (Stdlib.Arith.PeanoNat.Nat.divmod_spec x y 0 y (le_n y)).
   destruct (Nat.divmod x y 0 y) as [q r]. simpl.
   rewrite PeanoNat.Nat.sub_diag, PeanoNat.Nat.mul_0_r, !PeanoNat.Nat.add_0_r. rewrite h1 at 1.
   intros [i1 i2]. assert (h3 : y - r < S y). lia.
@@ -948,7 +951,7 @@ Proof.
   assert (i : exists q, Q q). exists (fun _ => Nat.modulo). intros x m n. destruct n.
   rewrite refl_is_True, COND_True. split; reflexivity.
   rewrite S_eq_0_is_False, COND_False. split.
-  rewrite PeanoNat.Nat.mul_comm. apply Coq.Arith.PeanoNat.Nat.div_mod_eq.
+  rewrite PeanoNat.Nat.mul_comm. apply Stdlib.Arith.PeanoNat.Nat.div_mod_eq.
   apply PeanoNat.Nat.mod_bound_pos. lia. lia.
   generalize (ε_spec i a). intro h.
   apply fun_ext; intro x. apply fun_ext; intro y.
@@ -957,7 +960,7 @@ Proof.
   symmetry. exact h2.
   intro x. generalize (h x (S y)). rewrite S_eq_0_is_False, COND_False.
   intros [h1 h2].
-  generalize (Coq.Arith.PeanoNat.Nat.divmod_spec x y 0 y (le_n y)).
+  generalize (Stdlib.Arith.PeanoNat.Nat.divmod_spec x y 0 y (le_n y)).
   unfold Nat.modulo. destruct (Nat.divmod x y 0 y) as [q r].
   rewrite PeanoNat.Nat.sub_diag, PeanoNat.Nat.mul_0_r, !PeanoNat.Nat.add_0_r.
   rewrite h1 at 1.
@@ -1064,8 +1067,7 @@ Proof.
 
   subst x2. split. reflexivity.
   generalize (f_equal (fun x => div x (2 ^ x1)) e). rewrite !DIV_MULT. lia.
-  apply pow_nonzero. lia.
-  apply pow_nonzero. lia.
+  apply pow_nonzero. lia. apply pow_nonzero. lia.
 
   apply False_rec. destruct (ge_is_add h) as [k hk]. subst x1.
   generalize (f_equal (fun x => div x (2 ^ x2)) e).
@@ -1304,8 +1306,7 @@ Proof.
   unfold NUMSUM. unfold NUMERAL, BIT1, BIT0.
   destruct (prop_degen b1); destruct (prop_degen b2); subst; try rewrite !COND_True; try rewrite !COND_False; intro e.
   split. auto. lia.
-  apply False_rec. lia.
-  apply False_rec. lia.
+  apply False_rec. lia. apply False_rec. lia.
   split. auto. lia.
 Qed.
 
@@ -1660,7 +1661,7 @@ Proof.
   set (l' := ε (_mk_list_pred r)). unfold _mk_list_pred. auto.
 Qed.
 
-Require Import Coq.Logic.ExtensionalityFacts.
+Require Import Stdlib.Logic.ExtensionalityFacts.
 
 Lemma ISO_def {A B : Type'} : (@is_inverse A B) = (fun _17569 : A -> B => fun _17570 : B -> A => (forall x : B, (_17569 (_17570 x)) = x) /\ (forall y : A, (_17570 (_17569 y)) = y)).
 Proof.
@@ -1668,7 +1669,7 @@ Proof.
   unfold is_inverse. apply prop_ext; tauto.
 Qed.
 
-Require Import Coq.Lists.List.
+Require Import Stdlib.Lists.List.
 
 Lemma APPEND_def {A : Type'} : (@app A) = (@ε ((prod nat (prod nat (prod nat (prod nat (prod nat nat))))) -> (list' A) -> (list' A) -> list' A) (fun APPEND' : (prod nat (prod nat (prod nat (prod nat (prod nat nat))))) -> (list A) -> (list A) -> list A => forall _17935 : prod nat (prod nat (prod nat (prod nat (prod nat nat)))), (forall l : list A, (APPEND' _17935 (@nil A) l) = l) /\ (forall h : A, forall t : list A, forall l : list A, (APPEND' _17935 (@cons A h t) l) = (@cons A h (APPEND' _17935 t l)))) (@pair nat (prod nat (prod nat (prod nat (prod nat nat)))) (NUMERAL (BIT1 (BIT0 (BIT0 (BIT0 (BIT0 (BIT0 (BIT1 0)))))))) (@pair nat (prod nat (prod nat (prod nat nat))) (NUMERAL (BIT0 (BIT0 (BIT0 (BIT0 (BIT1 (BIT0 (BIT1 0)))))))) (@pair nat (prod nat (prod nat nat)) (NUMERAL (BIT0 (BIT0 (BIT0 (BIT0 (BIT1 (BIT0 (BIT1 0)))))))) (@pair nat (prod nat nat) (NUMERAL (BIT1 (BIT0 (BIT1 (BIT0 (BIT0 (BIT0 (BIT1 0)))))))) (@pair nat nat (NUMERAL (BIT0 (BIT1 (BIT1 (BIT1 (BIT0 (BIT0 (BIT1 0)))))))) (NUMERAL (BIT0 (BIT0 (BIT1 (BIT0 (BIT0 (BIT0 (BIT1 0)))))))))))))).
 Proof.
@@ -1888,7 +1889,7 @@ Proof.
   generalize (ε_spec i). intro H. symmetry. induction l as [|a l]; simpl. apply H. rewrite <- IHl.
   transitivity ((x = a \/ ε Q p x l)). apply H. apply prop_ext.
   intro. destruct H0. left. symmetry. exact H0. right. exact H0.
-  intro. destruct H0. left. symmetry. exact H0. right. exact H0.
+  firstorder.
 Qed.
 
 Definition repeat_with_perm_args {A: Type'} (n: nat) (a: A) := @repeat A a n.
@@ -2015,7 +2016,7 @@ rewrite nth_of_Suc. rewrite (IHn (tl l)). symmetry. apply H.  Qed.*)
 (* Note the mismatch between Coq's ascii which takes booleans as arguments
 and HOL-Light's char which takes propositions as arguments. *)
 
-Require Import Coq.Strings.Ascii.
+Require Import Stdlib.Strings.Ascii.
 
 Definition ascii' := {| type := ascii; el := zero |}.
 Canonical ascii'.
@@ -2052,7 +2053,8 @@ Proof.
   apply is_true_inj; apply e2.
   apply is_true_inj; apply e2.
   apply is_true_inj; apply e2.
-  apply is_true_inj; apply e2. split.
+  apply is_true_inj; apply e2.
+  split.
   apply is_true_inj; apply e2.
   apply is_true_inj; apply e2.
   destruct H; rewrite H. destruct H0; rewrite H0. destruct H1; rewrite H1. destruct H2; rewrite H2. destruct H3; rewrite H3.
@@ -2231,7 +2233,7 @@ Add Relation _ nadd_eq
     transitivity proved by nadd_eq_trans
 as nadd_eq_rel.
 
-Require Import Coq.Setoids.Setoid.
+Require Import Stdlib.Setoids.Setoid.
 
 Add Morphism nadd_add
     with signature nadd_eq ==> nadd_eq ==> nadd_eq
@@ -2348,7 +2350,6 @@ Proof.
   rewrite <- (mk_hreal_nadd_eq p), <- (mk_hreal_nadd_eq q), hreal_add_of_mk_hreal.
   unfold mk_hreal at 3. unfold mk_hreal at 3. rewrite !mk_quotient_elt_of.
   reflexivity.
-  apply NADD_EQ_REFL. apply nadd_eq_sym. apply nadd_eq_trans.
   apply NADD_EQ_REFL. apply nadd_eq_sym. apply nadd_eq_trans.
 Qed.*)
 
